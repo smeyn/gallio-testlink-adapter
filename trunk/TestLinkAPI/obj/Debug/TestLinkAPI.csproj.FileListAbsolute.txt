@@ -1,0 +1,14 @@
+C:\src\dotnet\SpiraTest\TestLinkAPI\obj\Debug\ResolveAssemblyReference.cache
+C:\src\dotnet\SpiraTest\TestLinkAPI\bin\Debug\TestLinkAPI.pdb
+C:\src\dotnet\SpiraTest\TestLinkAPI\bin\Debug\CookComputing.XmlRpcV2.dll
+C:\src\dotnet\SpiraTest\TestLinkAPI\bin\Debug\CookComputing.XmlRpcV2.pdb
+C:\src\dotnet\SpiraTest\TestLinkAPI\obj\Debug\TestLinkAPI.pdb
+C:\src\dotnet\SpiraTest\TestLinkAPI\bin\Debug\TestLinkAPI.dll
+C:\src\dotnet\SpiraTest\TestLinkAPI\obj\Debug\TestLinkAPI.dll
+C:\src\dotnet\Testlink\TestLinkAPI\bin\Debug\TestLinkAPI.dll
+C:\src\dotnet\Testlink\TestLinkAPI\bin\Debug\TestLinkAPI.pdb
+C:\src\dotnet\Testlink\TestLinkAPI\bin\Debug\CookComputing.XmlRpcV2.dll
+C:\src\dotnet\Testlink\TestLinkAPI\bin\Debug\CookComputing.XmlRpcV2.pdb
+C:\src\dotnet\Testlink\TestLinkAPI\obj\Debug\ResolveAssemblyReference.cache
+C:\src\dotnet\Testlink\TestLinkAPI\obj\Debug\TestLinkAPI.dll
+C:\src\dotnet\Testlink\TestLinkAPI\obj\Debug\TestLinkAPI.pdb
