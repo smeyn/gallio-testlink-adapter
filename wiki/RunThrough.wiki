@@ -12,9 +12,9 @@ It then records the test result against that test case.
 = Installation =
 == Run Time Files ==
 There are three DLLs that need to be copied into the bin directory of the Gallio folder:
-* CookComputing.XmlRpcV2.dll
-* TestLinkAPI.dll
-* TlGallioAddOn.dll
+ * CookComputing.XmlRpcV2.dll
+ * TestLinkAPI.dll
+ * TlGallioAddOn.dll
 == Invocation ==
 In this example the console runner is used:
 {{{
