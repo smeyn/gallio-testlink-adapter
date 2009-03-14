@@ -1,0 +1,11 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Program Files\Gallio\bin\Gallio.Echo.exe</StartProgram>
+    <StartArguments>/extension:TestLinkAddOn,TlGallioAddon.dll C:\src\dotnet\Testlink\gallioAddOnSampleTests\bin\Debug\gallioAddOnSampleTests.dll</StartArguments>
+    <StartWorkingDirectory>C:\src\dotnet\Testlink\TlGallioAddOn\bin\Debug\</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProjectView>ProjectFiles</ProjectView>
+  </PropertyGroup>
+</Project>
