@@ -1,0 +1,1 @@
+"C:\Program Files\Gallio\bin\Gallio.Echo.exe" /extension:TestLinkAddOn,TlGallioAddon.dll  ..\bin\debug\tlinkTest.dll
