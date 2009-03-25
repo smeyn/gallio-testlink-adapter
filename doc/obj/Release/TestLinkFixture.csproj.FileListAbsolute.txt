@@ -1,0 +1,5 @@
+C:\src\dotnet\TestLink\TestLinkFixture\bin\Release\TestLinkFixture.dll
+C:\src\dotnet\TestLink\TestLinkFixture\bin\Release\TestLinkFixture.pdb
+C:\src\dotnet\TestLink\TestLinkFixture\obj\Release\ResolveAssemblyReference.cache
+C:\src\dotnet\TestLink\TestLinkFixture\obj\Release\TestLinkFixture.dll
+C:\src\dotnet\TestLink\TestLinkFixture\obj\Release\TestLinkFixture.pdb
