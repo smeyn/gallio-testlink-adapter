@@ -27,7 +27,7 @@ DEALINGS IN THE SOFTWARE.
 using System;
 using CookComputing.XmlRpc;
 
-namespace TestLinkAPI
+namespace Meyn.TestLink
 {
     /// <summary>
     /// base class for all response classes from the TL Api

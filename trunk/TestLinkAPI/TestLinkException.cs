@@ -28,7 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace TestLinkAPI
+namespace Meyn.TestLink
 {
    [Serializable]
     public class TestLinkException : ApplicationException
