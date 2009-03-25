@@ -25,8 +25,8 @@ DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
 using MbUnit.Framework;
-using TestLinkAPI;
-using TlGallioAddOn;
+using Meyn.TestLink;
+using Meyn.TestLink.GallioExporter;
 
 namespace tlinkTest
 {

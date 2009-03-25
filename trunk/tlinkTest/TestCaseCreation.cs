@@ -26,8 +26,8 @@ DEALINGS IN THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using MbUnit.Framework;
-using TestLinkAPI;
-using TlGallioAddOn;
+using Meyn.TestLink;
+using Meyn.TestLink.GallioExporter;
 
 namespace tlinkTest
 {
@@ -233,8 +233,8 @@ namespace tlinkTest
             string extId = string.Format("TAPI-{0}", result.additionalInfo.external_id);
 
             proxy.addTestCaseToTestPlan(ApiTestProjectId, PlanCalledAutomatedTesting.id, extId, 1);
-            List<TestLinkAPI.TestCaseFromTestPlan> tcList = proxy.GetTestCasesForTestPlan(PlanCalledAutomatedTesting.id);
-            foreach (TestLinkAPI.TestCaseFromTestPlan tc in tcList)
+            List<Meyn.TestLink.TestCaseFromTestPlan> tcList = proxy.GetTestCasesForTestPlan(PlanCalledAutomatedTesting.id);
+            foreach (Meyn.TestLink.TestCaseFromTestPlan tc in tcList)
             {
                 Console.WriteLine("tc:{0}, feature_id:{1}, external_id:{2}, tcversion:{3}, tcversion_number:{4}", 
                     tc.tc_id, tc.feature_id, tc.external_id, tc.version, tc.tcversion_id, tc.tcversion_number);

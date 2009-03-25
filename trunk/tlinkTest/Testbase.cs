@@ -25,7 +25,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 using System.Collections.Generic;
-using TestLinkAPI;
+using Meyn.TestLink;
 using MbUnit.Framework;
 
 
@@ -110,8 +110,8 @@ namespace tlinkTest
             {
                 if (businessRulesTestSuiteId == 0)
                 {
-                    List<TestLinkAPI.TestSuite> allSuites = proxy.GetFirstLevelTestSuitesForTestProject(ApiTestProjectId);
-                    foreach (TestLinkAPI.TestSuite ts in allSuites)
+                    List<Meyn.TestLink.TestSuite> allSuites = proxy.GetFirstLevelTestSuitesForTestProject(ApiTestProjectId);
+                    foreach (Meyn.TestLink.TestSuite ts in allSuites)
                         if (ts.name == testSuiteName2)
                             businessRulesTestSuiteId = ts.id;
                 }
