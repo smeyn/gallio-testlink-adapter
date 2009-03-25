@@ -8,7 +8,7 @@
     <ProjectGuid>{7A07BED3-959C-4114-B6DB-7D5508597455}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TlGallioAddOn</RootNamespace>
+    <RootNamespace>Meyn.TestLink.GallioExporter</RootNamespace>
     <AssemblyName>TlGallioAddOn</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -49,19 +49,22 @@
     <Compile Include="ResultExporter.cs" />
     <Compile Include="TestLinkAddOn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestLinkFixtureAttribute.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TestLinkAPI\TestLinkAPI.csproj">
-      <Project>{743BC178-7039-4D01-B3AF-83099B8411BA}</Project>
-      <Name>TestLinkAPI</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="The Gallio Testlink Adapter.pdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestLinkAPI\TestLinkAPI.csproj">
+      <Project>{743BC178-7039-4D01-B3AF-83099B8411BA}</Project>
+      <Name>TestLinkAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestLinkFixture\TestLinkFixture.csproj">
+      <Project>{B412DDEB-7308-4FCF-8C6A-1EAF38F90DED}</Project>
+      <Name>TestLinkFixture</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
