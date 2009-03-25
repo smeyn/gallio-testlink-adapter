@@ -30,7 +30,7 @@ using Gallio.Runner.Events;
 using System.Diagnostics;
 using Gallio.Runner.Reports;
 
-namespace TlGallioAddOn
+namespace Meyn.TestLink.GallioExporter
 {
     /// <summary>
     /// the extension to the framework.
@@ -51,6 +51,7 @@ namespace TlGallioAddOn
         {
             Debug.WriteLine("TestStep Finished");
             Debug.WriteLine(e.Test.FullName);
+            Debug.WriteLine(String.Format("TestStepRun.Step.FullName: {0}", e.TestStepRun.Step.FullName));
             Debug.WriteLine(string.Format("  IsTestCase = {0}", e.Test.IsTestCase));
             Debug.WriteLine(string.Format("  Test Result for {0}: {1}", e.TestStepRun.Step.Name, e.TestStepRun.Result.Outcome));
             Debug.WriteLine(string.Format("  CodeLocation {0}", e.TestStepRun.Step.CodeLocation.Path));
@@ -62,7 +63,7 @@ namespace TlGallioAddOn
 
             if (e.TestStepRun.Step.CodeReference.Kind == Gallio.Reflection.CodeReferenceKind.Assembly)
             {
-               exporter.RetrieveTestFixture(e.TestStepRun.Step.CodeLocation.Path);
+                exporter.RetrieveTestFixture(e.TestStepRun.Step.FullName, e.TestStepRun.Step.CodeLocation.Path);
             }
             Debug.WriteLine("---------------------------------------");
 

@@ -29,9 +29,9 @@ using Gallio.Runner.Reports;
 using Gallio.Model;
 using System.Reflection;
 using System.Diagnostics;
-using TestLinkAPI;
+using Meyn.TestLink;
 
-namespace TlGallioAddOn
+namespace Meyn.TestLink.GallioExporter
 {
     /// <summary>
     /// this class is responsible for exporting the test run results to TestLink
@@ -43,6 +43,8 @@ namespace TlGallioAddOn
         /// </summary>
         public Dictionary<string, TestLinkFixtureAttribute> fixtures = new Dictionary<string, TestLinkFixtureAttribute>();
 
+        private TestLinkAdaptor adaptor = new TestLinkAdaptor();
+
         /// <summary>
         /// the url of the current server
         /// </summary>
@@ -51,7 +53,7 @@ namespace TlGallioAddOn
         /// <summary>
         /// the proxy to the current server
         /// </summary>
-        TestLinkAPI.TestLink proxy = null;
+        Meyn.TestLink.TestLink proxy = null;
 
         /// <summary>
         /// list of all projects on the server
@@ -68,7 +70,12 @@ namespace TlGallioAddOn
         /// </summary>
         private List<TestPlan> plans = null;
 
-        public void RetrieveTestFixture(string path)
+        /// <summary>
+        /// we have a 
+        /// </summary>
+        /// <param name="fixtureName"></param>
+        /// <param name="path"></param>
+        public void RetrieveTestFixture(string assemblyName, string path)
         {
             Assembly target = Assembly.LoadFile(path);
             Type[] allTypes = target.GetExportedTypes();
@@ -80,7 +87,9 @@ namespace TlGallioAddOn
                     TestLinkFixtureAttribute tlfa = attribute as TestLinkFixtureAttribute;
                     if (tlfa != null)
                     {
-                        fixtures.Add(t.FullName, tlfa);
+
+                        string testStepName = string.Format("{0}/{1}", assemblyName, t.Name.Replace('.', '/'));
+                        fixtures.Add(testStepName, tlfa);
                     }
                 }
             }
@@ -98,38 +107,23 @@ namespace TlGallioAddOn
                 {
                     Debug.WriteLine(string.Format("Failed to find testlinkfixture of name {0}", data.Step.FullName));
                     Console.Error.WriteLine("Failed to find testlinkfixture of name {0}", data.Step.FullName);
+                    adaptor.ConnectionData = null;
                     return;
                 }
-                Debug.WriteLine(string.Format("new Testlink({0}, {1}", tlfa.DevKey, tlfa.Url));
+                adaptor.ConnectionData = tlfa;
+                //Debug.WriteLine(string.Format("new Testlink({0}, {1}", tlfa.DevKey, tlfa.Url));
 
 
                 string TestName = data.Step.Name;
 
-                // get testproject & TestPlanId
-                int testPlanId = GetProjectAndPlans(tlfa);
-                if (currentProject == null)
+                if (adaptor.ConnectionValid)
                 {
-                    Console.WriteLine("Failed to find project of name {0}", tlfa.ProjectName);
-                    return;
+                    int tcid = adaptor.GetTestCaseId(TestName);
+                    if (tcid > 0)
+                        recordResult(data, tcid);
                 }
-                if (testPlanId == 0)
-                {
-                    Console.WriteLine("Failed to find testplan of name {0}", tlfa.TestPlan);
-                    return;
-                }
-
-                int testSuiteId = GetTestSuitedId(currentProject.id, tlfa.TestSuite);
-                if (testSuiteId == 0)
-                {
-                    Console.Error.WriteLine("Failed to find testsuite of name '{0}'", tlfa.TestSuite);
-                    return;
-                }
-
-                int TCaseId = getTestCaseId(TestName, testSuiteId, tlfa.UserId, currentProject.id, testPlanId);
-
-                if (TCaseId > 0)
-                    recordResult(data, tlfa, testPlanId, TCaseId);
-
+                else
+                    Console.WriteLine(" -- Failed to export {0} --", TestName);
             }
             catch (TestLinkException tlex)
             {
@@ -143,7 +137,8 @@ namespace TlGallioAddOn
             }
         }
 
-        private void recordResult(TestStepRun data, TestLinkFixtureAttribute tlfa, int testPlanId, int TCaseId)
+  //      private void recordResult(TestStepRun data, TestLinkFixtureAttribute tlfa, int testPlanId, int TCaseId)
+        private void recordResult(TestStepRun data,  int TCaseId)
         {
             TestCaseResultStatus status = TestCaseResultStatus.Blocked;//= (data.Result.Outcome.Status == TestStatus.Passed)
                 //? TestCaseResultStatus.Pass : TestCaseResultStatus.Fail;
@@ -158,14 +153,15 @@ namespace TlGallioAddOn
 
             string notes = data.TestLog.ToString();
 
-            Debug.WriteLine(
-                string.Format("ReportTCResult(TCName=\"{0}\", TestPlan=\"{1}\", Status=\"{2}\", Notes=\"{3}\"",
-                data.Step.Name,
-                tlfa.TestPlan,
-                (data.Result.Outcome.Status == TestStatus.Passed) ? "p" : "f",
-               notes));
+            //Debug.WriteLine(
+            //    string.Format("ReportTCResult(TCName=\"{0}\", TestPlan=\"{1}\", Status=\"{2}\", Notes=\"{3}\"",
+            //    data.Step.Name,
+            //    tlfa.TestPlan,
+            //    (data.Result.Outcome.Status == TestStatus.Passed) ? "p" : "f",
+            //   notes));
 
-            GeneralResult reportResult = proxy.ReportTCResult(TCaseId, testPlanId, status, notes);
+            
+            GeneralResult reportResult = adaptor.RecordResult(TCaseId, status, notes);//proxy.ReportTCResult(TCaseId, testPlanId, status, notes);
 
             if (reportResult.status == true)
                 Console.WriteLine("Recorded test run result for {0} as {1}",
@@ -295,12 +291,13 @@ namespace TlGallioAddOn
         /// </summary>
         /// <param name="stepName"></param>
         /// <returns>a fixture or null of not found</returns>
+        /// <remarks>this is defective, the stepName includes the assembly name and not the qualified path of the test method</remarks>
         private TestLinkFixtureAttribute getFixture(string stepName)
         {
             // remove the mbunit prefix
-            string name = stepName.Substring(stepName.IndexOf('/') + 1);
+            string name = stepName;//.Substring(stepName.IndexOf('/') + 1);
             // convert
-            name = name.Replace('/', '.');
+  //          name = name.Replace('/', '.');
             
             // find the fixture that matches the beginning of this name
             foreach (string fixtureName in fixtures.Keys)
