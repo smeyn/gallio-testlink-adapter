@@ -69,6 +69,10 @@
       <Project>{743BC178-7039-4D01-B3AF-83099B8411BA}</Project>
       <Name>TestLinkAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestLinkFixture\TestLinkFixture.csproj">
+      <Project>{B412DDEB-7308-4FCF-8C6A-1EAF38F90DED}</Project>
+      <Name>TestLinkFixture</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TlGallioAddOn\TlGallioAddOn.csproj">
       <Project>{7A07BED3-959C-4114-B6DB-7D5508597455}</Project>
       <Name>TlGallioAddOn</Name>

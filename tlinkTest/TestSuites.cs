@@ -26,8 +26,8 @@ DEALINGS IN THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using MbUnit.Framework;
-using TestLinkAPI;
-using TlGallioAddOn;
+using Meyn.TestLink;
+using Meyn.TestLink.GallioExporter;
 
 namespace tlinkTest
 {
@@ -80,9 +80,9 @@ namespace tlinkTest
         {
             TestPlan plan = getTestPlan(theTestPlanName);
 
-            List<TestLinkAPI.TestSuite> list = proxy.GetTestSuitesForTestPlan(plan.id);
+            List<Meyn.TestLink.TestSuite> list = proxy.GetTestSuitesForTestPlan(plan.id);
             Assert.IsNotEmpty(list);
-            foreach (TestLinkAPI.TestSuite ts in list)
+            foreach (Meyn.TestLink.TestSuite ts in list)
                 Console.WriteLine("{0}:{1}", ts.id, ts.name);
 
         }
@@ -92,16 +92,16 @@ namespace tlinkTest
         [Test]
         public void TestSuitesForTestProject()
         {
-            List<TestLinkAPI.TestSuite> list = proxy.GetFirstLevelTestSuitesForTestProject(ApiTestProjectId);
+            List<Meyn.TestLink.TestSuite> list = proxy.GetFirstLevelTestSuitesForTestProject(ApiTestProjectId);
             Assert.IsNotEmpty(list);
-            foreach (TestLinkAPI.TestSuite ts in list)
+            foreach (Meyn.TestLink.TestSuite ts in list)
                 Console.WriteLine("{0}:{1}", ts.id, ts.name);
 
         }
         [Test]
         public void TestSuitesForEmptyTestProject()
         {
-            List<TestLinkAPI.TestSuite> list = proxy.GetFirstLevelTestSuitesForTestProject(EmptyProjectId);
+            List<Meyn.TestLink.TestSuite> list = proxy.GetFirstLevelTestSuitesForTestProject(EmptyProjectId);
             Assert.IsEmpty(list, "empty project is not empty but has {0} test suites", list.Count);
         }
     }

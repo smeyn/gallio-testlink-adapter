@@ -25,8 +25,8 @@ DEALINGS IN THE SOFTWARE.
 
 using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
-using TestLinkAPI;
-using TlGallioAddOn;
+using Meyn.TestLink;
+using Meyn.TestLink.GallioExporter;
 
 namespace tlinkTest
 {   
