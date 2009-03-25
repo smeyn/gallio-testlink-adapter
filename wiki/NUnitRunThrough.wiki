@@ -1,13 +1,82 @@
-#summary One-sentence summary of this page.
+#A Quick Run Through.
 
 = Introduction =
 
-Add your content here.
+To make use of the NTA, you must first add a new attribute to each TestFixture. This attribute, called TestLinkFixture takes parameters that tell the adapter where to find the test cases to record results to. 
+Typically the tests are run as part of a build script or a batch file. The NTA is an extension to the command line runner.
+When the tests have been run, the extension is called with the test results.
+The extension parses the results, loads the test assemblies that have been run and extracts the test link fixture. It then contacts Testlink to look for test cases with the same name as they test methods in the unit test. 
+If the test case does not exist, GTA will create them and assign them to the Testplan.
+It then records the test result against that test case.
+= Installation =
+== Run Time Files ==
+Copy all the DLLs into the AddIn directory of the NUnit folder:
+
+== Invocation ==
+In this example the console runner is used:
+{{{
+Nunit-Console.exe [unitTestAssembly]
+}}}
+== TestLink Setup  ==
+In order for this to work you need to have in testlink:
+ # Enabled the API (see installation manual)
+ # Created an account  for testing
+ # Created an ApiKey for this account
+ # Setup a test project
+ # Set up test suite(s) (top level test suite) for the test cases
+ # In the test project set up a test plan
+ # Optionally created test cases in the test suite and assigned to the test plan
+ # Have an active build defined in the testplan
+
+Step 7 really is optionally because:
+ # You must make sure you name the test cases exactly as they are defined in your unit tests
+ # If you use advanced features such as contract verifiers and row tests in MBUnit you have to guess what these test cases will be named because they are dynamically generated
+ # If you don’t create test cases, ATG will do it for you – much easier
+
+== Unit Test setup ==
+Write your test cases as you are used to.
+Then have the project reference TLGallioAddin.dll and add a Using Statement for it.
+Add the TestLinkFixture to your testfixture.
+The parameters are:
+ * URL of the TestLink Api
+ * UserName under which the test cases are authored
+ * An ApiKey (provided by the testlink application)
+ * The test project name 
+ * The test plan in the test project 
+ * The test suite name that will contain the test cases
+
+Example
+{{{
+using NUnit.Framework;
+using Meyn.TestLink;
+
+namespace NunitAddOnSampleTests
+{
+    [TestFixture]
+    [TestLinkFixture(
+        Url = "http://localhost/testlink/lib/api/xmlrpc.php",
+        ProjectName = "TestLinkApi",
+        UserId = "admin",
+        TestPlan = "Automatic Testing",
+        TestSuite = "nunitAddOnSampleTests",
+        DevKey = "ae28ffa45712a041fa0b31dfacb75e29")]
+    public class SampleFixture
+    {
+        [Test]
+        public void Test2Succeed()
+        {
+            Assert.IsTrue(true);
+        }
+    }
+}
+}}}
+
+Voila.
+This will create a test case named Test2Succeed and record test case result against it.
+== Limitations ==
+This has been tested with NUnit V 2.4.8 & C# and Testlink V 1.8RC5. 
+
+It should work with VB.NET.
 
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+You use this code at your own risk. 
