@@ -27,7 +27,7 @@ DEALINGS IN THE SOFTWARE.
 using System.Collections.Generic;
 using CookComputing.XmlRpc;
 
-namespace TestLinkAPI
+namespace Meyn.TestLink
 {
     public enum TestCaseResultStatus { Pass, Fail, Blocked}
 
@@ -317,7 +317,17 @@ namespace TestLinkAPI
         /// <returns></returns>
         public List<TestProject> GetProjects()
         {
-            object response = proxy.getProjects(devkey);
+             object response = null;
+
+             try
+             {
+                 response = proxy.getProjects(devkey);
+             }
+             catch (XmlRpcServerException xrsex)
+             {
+                 throw new TestLinkException(xrsex.Message);
+             }
+
             List<TestProject> retval = new List<TestProject>();
             if ((response is string) && ((string)response == string.Empty))  // equals null return
                 return retval;

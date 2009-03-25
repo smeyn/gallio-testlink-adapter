@@ -26,7 +26,7 @@ DEALINGS IN THE SOFTWARE.
 using CookComputing.XmlRpc;
 
 
-namespace TestLinkAPI
+namespace Meyn.TestLink
 {
  
     /// <summary>
