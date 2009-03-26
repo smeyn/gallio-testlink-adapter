@@ -1,13 +1,13 @@
 #labels Featured
-#A Quick Run Through.
+#A Quick Run Through of the NUnit TestLink Adapter.
 
 = Introduction =
 
-To make use of the NTA, you must first add a new attribute to each TestFixture. This attribute, called TestLinkFixture takes parameters that tell the adapter where to find the test cases to record results to. 
+To make use of the NUnit TestLink Adapter (NTA), you must first add a new attribute to each TestFixture. This attribute, called TestLinkFixture takes parameters that tell the adapter where to find the test cases to record results to. 
 Typically the tests are run as part of a build script or a batch file. The NTA is an extension to the command line runner.
 When the tests have been run, the extension is called with the test results.
 The extension parses the results, loads the test assemblies that have been run and extracts the test link fixture. It then contacts Testlink to look for test cases with the same name as they test methods in the unit test. 
-If the test case does not exist, GTA will create them and assign them to the Testplan.
+If the test case does not exist, NTA will create them and assign them to the Testplan.
 It then records the test result against that test case.
 = Installation =
 == Run Time Files ==
