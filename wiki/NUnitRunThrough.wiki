@@ -1,5 +1,5 @@
+#summary A Quick Run Through of the NUnit TestLink Adapter.
 #labels Featured
-#A Quick Run Through of the NUnit TestLink Adapter.
 
 = Introduction =
 
@@ -32,11 +32,11 @@ In order for this to work you need to have in testlink:
 Step 7 really is optionally because:
  # You must make sure you name the test cases exactly as they are defined in your unit tests
  # If you use advanced features such as contract verifiers and row tests in MBUnit you have to guess what these test cases will be named because they are dynamically generated
- # If you don’t create test cases, ATG will do it for you – much easier
+ # If you don’t create test cases, NTA will do it for you – much easier
 
 == Unit Test setup ==
 Write your test cases as you are used to.
-Then have the project reference TLGallioAddin.dll and add a Using Statement for it.
+Then have the project reference TestLinkFixture.dll and add a Using Statement for it.
 Add the TestLinkFixture to your testfixture.
 The parameters are:
  * URL of the TestLink Api
