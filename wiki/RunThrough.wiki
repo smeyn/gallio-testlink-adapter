@@ -1,5 +1,5 @@
+#summary A Quick Run Through for Gallio Users.
 #labels Featured
-#A Quick Run Through.
 
 = Introduction =
 
@@ -44,7 +44,7 @@ Add the TestLinkFixture to your testfixture.
 The parameters are:
  * URL of the TestLink Api
  * UserName under which the test cases are authored
- * An ApiKey (provided by the testlink application)
+ * An ApiKey (provided by the testlink application (uses the name DevKey)
  * The test project name 
  * The test plan in the test project 
  * The test suite name that will contain the test cases
