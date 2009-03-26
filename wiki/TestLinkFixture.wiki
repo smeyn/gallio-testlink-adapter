@@ -17,7 +17,7 @@ You need to provide the following details:
  * TestPlan: the testplan name that will receive the test results
  * TestSuite: the test suite name where the test cases will appear
  * UserId: what is the user name to be used if test cases need to be created first
- * DevKey: the [APIKey API Access Key] provided by TestLink for the above user id
+ * DevKey: the [ApiKey API Access Key] provided by TestLink for the above user id
 
 Example Values
 {{{
