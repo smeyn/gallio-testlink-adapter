@@ -53,6 +53,7 @@ Example
 {{{
 using MbUnit.Framework;
 using TlGallioAddOn;
+using Meyn.TestLink;
 
 namespace gallioAddOnSampleTests
 {
@@ -77,6 +78,10 @@ namespace gallioAddOnSampleTests
 
 Voila.
 This will create a test case named Test2Succeed and record test case result against it.
+
+== Note ==
+Please make sure the fixture class is marked public. Gallio will run and execute classes no marked public but this adapter won't find the fixture.
+
 == Limitations ==
 This has been tested with Gallio&  MBUnit V3.0.5, C# and Testlink V 1.8RC5. 
 
