@@ -90,10 +90,10 @@ This will create a test case named Test2Succeed and record test case result agai
 == Note ==
 Please make sure the fixture class is marked public. Gallio will run and execute classes no marked public but this adapter won't find the fixture.
 
+There is a new set of binaries for Gallio V3.0.6
+
 == Limitations ==
 This has been tested with Gallio & MBUnit V3.0.5 & V3.0.6, C# and Testlink V 1.8RC5. 
-
-If you want to use Gallio V3.0.6 you need to rebuild the solution linked to the new run time (new binaries will be up soon).
 
 It should work with VB.NET.
 
