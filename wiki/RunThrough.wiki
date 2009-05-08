@@ -16,10 +16,18 @@ There are three DLLs that need to be copied into the bin directory of the Gallio
  * TestLinkAPI.dll
  * TlGallioAddOn.dll
 == Invocation ==
-In this example the console runner is used:
+The exporter works with the console runner Gallio.Echo.
+Gallio v3.0.5
 {{{
 Gallio.Echo.exe /extension:TestLinkAddOn,TlGallioAddon.dll  [unitTestAssembly]
 }}}
+Gallio v3.0.6
+{{{
+Gallio.Echo.exe /re:TestLinkAddOn,TlGallioAddon.dll   [unitTestAssembly]
+}}}
+
+
+
 If you are using the Gallio NAnt or MSBuild tasks, the process is similar. Refer to the documentation of these tasks for details.  (http://blog.bits-in-motion.com/2008/05/announcing-gallio-v30-alpha-3.html)
 == TestLink Setup  ==
 In order for this to work you need to have in testlink:
@@ -83,7 +91,9 @@ This will create a test case named Test2Succeed and record test case result agai
 Please make sure the fixture class is marked public. Gallio will run and execute classes no marked public but this adapter won't find the fixture.
 
 == Limitations ==
-This has been tested with Gallio&  MBUnit V3.0.5, C# and Testlink V 1.8RC5. 
+This has been tested with Gallio & MBUnit V3.0.5 & V3.0.6, C# and Testlink V 1.8RC5. 
+
+If you want to use Gallio V3.0.6 you need to rebuild the solution linked to the new run time (new binaries will be up soon).
 
 It should work with VB.NET.
 
