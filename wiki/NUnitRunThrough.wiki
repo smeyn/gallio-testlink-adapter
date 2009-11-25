@@ -1,6 +1,9 @@
 #summary A Quick Run Through of the NUnit TestLink Adapter.
 #labels Featured
 
+= What is the NUnit TestLink Adapter? =
+The test link adapter is an Addin for the NUnit unit testing framework. It exports test results into Testlink, which is a test management application.
+
 = Introduction =
 
 To make use of the NUnit TestLink Adapter (NTA), you must first add a new attribute to each TestFixture. This attribute, called TestLinkFixture takes parameters that tell the adapter where to find the test cases to record results to. 
@@ -75,7 +78,7 @@ namespace NunitAddOnSampleTests
 Voila.
 This will create a test case named Test2Succeed and record test case result against it.
 == Limitations ==
-This has been tested with NUnit V 2.4.8 & C# and Testlink V 1.8RC5. 
+This has been tested with NUnit V 2.5.2 & C# and Testlink V 1.8.2 
 
 It should work with VB.NET.
 
