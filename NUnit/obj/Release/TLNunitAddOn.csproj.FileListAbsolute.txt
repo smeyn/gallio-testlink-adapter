@@ -1,0 +1,10 @@
+G:\src\DotNet\testlink\Nunit\obj\Release\ResolveAssemblyReference.cache
+G:\src\DotNet\testlink\Nunit\bin\Release\TlNUnitAddOn.dll
+G:\src\DotNet\testlink\Nunit\bin\Release\TlNUnitAddOn.pdb
+G:\src\DotNet\testlink\Nunit\bin\Release\TestLinkAPI.dll
+G:\src\DotNet\testlink\Nunit\bin\Release\TestLinkFixture.dll
+G:\src\DotNet\testlink\Nunit\bin\Release\CookComputing.XmlRpcV2.dll
+G:\src\DotNet\testlink\Nunit\bin\Release\TestLinkFixture.pdb
+G:\src\DotNet\testlink\Nunit\bin\Release\TestLinkAPI.pdb
+G:\src\DotNet\testlink\Nunit\obj\Release\TlNUnitAddOn.dll
+G:\src\DotNet\testlink\Nunit\obj\Release\TlNUnitAddOn.pdb
