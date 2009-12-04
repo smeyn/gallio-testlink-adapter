@@ -50,12 +50,12 @@ namespace tlinkTest
        UserId = "admin",
        TestPlan = "Automatic Testing",
        TestSuite = "testGetLastExecutionResult",
-       DevKey = "ae28ffa45712a041fa0b31dfacb75e29")]
+       DevKey = "b6e8fee35d143cd018d3b683e0777c51")]
     public class testGetLastExecutionResult : Testbase
     {
         //TestLink proxy;
         //string apiKey = "ae28ffa45712a041fa0b31dfacb75e29";
-        int testPlanId = 1311;
+        int testPlanId = 108;
         //int projectId = 1291;
         //int testsuiteid = 1306;
 
