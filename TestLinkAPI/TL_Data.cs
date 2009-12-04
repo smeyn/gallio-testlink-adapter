@@ -393,6 +393,12 @@ namespace Meyn.TestLink
         public int id;
         internal TestPlan(XmlRpcStruct data)
         {
+            //Console.WriteLine("Testplan constructor");
+            //Console.WriteLine("Nr data items: {0}", data.Values.Count);
+            //Console.WriteLine("Nr key items: {0}", data.Keys.Count);
+            //foreach (object key in data.Keys)
+            //    Console.WriteLine("{0}:'{1}'", key, data[key].ToString());
+            //Console.WriteLine("---");
             active = toInt(data, "active") == 1;
             id = toInt(data, "id");
             name = (string)data["name"];

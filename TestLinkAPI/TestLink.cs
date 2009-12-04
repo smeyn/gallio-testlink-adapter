@@ -374,7 +374,23 @@ namespace Meyn.TestLink
                 return retval;
             XmlRpcStruct[] results = response as XmlRpcStruct[];
             handleErrorMessage(results);
-            XmlRpcStruct result = results[0];
+            object[] oList = response as object[];
+            if ((oList.Length == 0) || (oList[0] is string))
+                return retval;
+            XmlRpcStruct result = oList[0] as XmlRpcStruct;
+            //foreach (object o in oList)
+            //{
+            // //   System.Console.WriteLine("'{0}'", o.ToString());
+            //    if ((o is string) && (((string)o) == string.Empty))
+            //        return retval; // empty list
+
+            //}
+            //foreach (XmlRpcStruct data in oList)
+            //{
+            //    TestPlan tp = new TestPlan(data);
+            //    retval.Add(tp);
+            //}
+            ////XmlRpcStruct result = results[0];
             foreach (string key in result.Keys)
             {
                 XmlRpcStruct planStruct = (XmlRpcStruct)result[key];
@@ -479,6 +495,20 @@ namespace Meyn.TestLink
                 case TestCaseResultStatus.Fail: statusChar = "f"; break;
             }
             object response = proxy.reportTCResult(devkey, tcid, tpid, statusChar, notes, true);
+            handleErrorMessage(response);
+            return handleReportTCResult(response);
+        }
+
+        public GeneralResult ReportTCResult(int tcid, int tpid, int buildId, TestCaseResultStatus status, string notes)
+        {
+            string statusChar = "";
+            switch (status)
+            {
+                case TestCaseResultStatus.Blocked: statusChar = "b"; break;
+                case TestCaseResultStatus.Pass: statusChar = "p"; break;
+                case TestCaseResultStatus.Fail: statusChar = "f"; break;
+            }
+            object response = proxy.reportTCResult(devkey, tcid, tpid, statusChar, buildId, notes, true);
             handleErrorMessage(response);
             return handleReportTCResult(response);
         }
