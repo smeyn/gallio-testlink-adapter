@@ -51,20 +51,9 @@ namespace tlinkTest
       UserId = "admin",
       TestPlan = "Automatic Testing",
       TestSuite = "TestSuites",
-      DevKey = "ae28ffa45712a041fa0b31dfacb75e29")]
+      DevKey = "b6e8fee35d143cd018d3b683e0777c51")]
     public class TestSuites : Testbase
-    {
-        //string apiKey = "ae28ffa45712a041fa0b31dfacb75e29";
-
-       
-       // int apiTestProjectId;// = 1291;
-      //  int emptyProjectId;
-       // string testPlanName = "Automated Testing";
-        //int TestLinkAPI.TestSuiteid = 1306;
-
-        //TestProject project;
- 
-
+    {    
         [SetUp]
         public void setup()
         {

@@ -52,7 +52,7 @@ namespace tlinkTest
      UserId = "admin",
      TestPlan = "Automatic Testing",
      TestSuite = "TestBuilds",
-     DevKey = "ae28ffa45712a041fa0b31dfacb75e29")]
+     DevKey = "b6e8fee35d143cd018d3b683e0777c51")]
     public class TestBuilds : Testbase
     {
        // string apiKey = "ae28ffa45712a041fa0b31dfacb75e29";

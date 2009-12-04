@@ -43,20 +43,25 @@ namespace tlinkTest
     ///  
     /// Please remember that this tests the API, not testlink.
     /// </remarks>
+
     [TestFixture]
-    [TestsOn("TestLinkException")]
-    [VerifyExceptionContract(typeof(TestLinkException))]
     [TestLinkFixture(
       Url = "http://localhost/testlink/lib/api/xmlrpc.php",
       ProjectName = "TestLinkApi",
       UserId = "admin",
       TestPlan = "Automatic Testing",
       TestSuite = "TLinkExceptionTest",
-      DevKey = "ae28ffa45712a041fa0b31dfacb75e29")]
-    public class TLinkExceptionTest
+      DevKey = "b6e8fee35d143cd018d3b683e0777c51")]
+    [TestsOn("TestLinkException")]
+        public class exeptionTester
     {
 
-        //nothing needs to be done here. It is all done via the VerifyExceptionContract attribute.
-      
+    //[ExceptionContract(typeof(TestLinkException))]
+        public readonly IContract TLinkExceptionTest = new ExceptionContract<TestLinkException>()
+        {
+
+            //nothing needs to be done here. It is all done via the VerifyExceptionContract attribute.
+
+        };
     }
 }

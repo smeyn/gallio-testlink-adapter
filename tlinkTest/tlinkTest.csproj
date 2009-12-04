@@ -34,10 +34,10 @@
   <ItemGroup>
     <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ThirdParty\xml-rpc\bin\CookComputing.XmlRpcV2.dll</HintPath>
+      <HintPath>..\CookComputing.XmlRpcV2.dll</HintPath>
     </Reference>
     <Reference Include="Gallio" />
-    <Reference Include="MbUnit" />
+    <Reference Include="MbUnit, Version=3.0.6.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -60,6 +60,8 @@
     <Compile Include="SmokeTests.cs" />
     <Compile Include="TestCaseTests.cs" />
     <Compile Include="testGetLastExecutionResult.cs" />
+    <Compile Include="TestPlanTests.cs" />
+    <Compile Include="TestProjectTests.cs" />
     <Compile Include="TestResultReporting.cs" />
     <Compile Include="TestSuites.cs" />
     <Compile Include="TLinkExceptionTest.cs" />

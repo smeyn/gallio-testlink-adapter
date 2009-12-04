@@ -41,7 +41,7 @@ namespace tlinkTest
         /// <summary>
         /// this apiKey needs to be set whenever a new user is created.
         /// </summary>
-        protected const string apiKey = "ae28ffa45712a041fa0b31dfacb75e29";
+        protected const string apiKey = "b6e8fee35d143cd018d3b683e0777c51";
         protected const string userName = "admin";
 
         protected const string testProjectName = "apiSandbox";
@@ -158,6 +158,9 @@ namespace tlinkTest
         /// </summary>
         protected void loadProjectIds()
         {
+            apiTestProjectId = -1;
+            emptyProjectId = -1;
+
             foreach (TestProject project in AllProjects)
             {
                 switch (project.name)
@@ -166,6 +169,7 @@ namespace tlinkTest
                     case emptyProjectName: emptyProjectId = project.id; break;
                 }
             }
+            
         }
 
         #region test plan
