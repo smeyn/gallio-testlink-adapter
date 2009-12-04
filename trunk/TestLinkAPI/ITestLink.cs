@@ -73,7 +73,7 @@ namespace Meyn.TestLink
         object getProjects(string devKey);
  
         [XmlRpcMethod("tl.getProjectTestPlans", StructParams = true)]
-        XmlRpcStruct[] getProjectTestPlans(string devKey, int testprojectid);
+        object[] getProjectTestPlans(string devKey, int testprojectid);
 
         [XmlRpcMethod("tl.getTestCaseAttachments", StructParams = true)]
         string getTestCaseAttachments(string devkey);
