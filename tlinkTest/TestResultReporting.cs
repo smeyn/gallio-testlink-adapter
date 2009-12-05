@@ -100,6 +100,30 @@ namespace tlinkTest
             Assert.AreEqual(true, result.status);
         }
 
+        [Test]
+        [Category("Changes Database")]
+        public void ReportTestCaseAgainstOlderBuild()
+        {
+            List<Build> builds = proxy.GetBuildsForTestPlan(PlanCalledAutomatedTesting.id);
+            Assert.IsNotEmpty(builds, "Can't proceed. Got empty list of builds for plan");
+            // remove inactive builds
+            for (int i = builds.Count - 1; i >= 0; i--)
+                if (builds[i].is_open == false)
+                    builds.Remove(builds[i]);
+
+            Assert.IsTrue(builds.Count>1, "Can't proceed. Need at least two active builds");
+            // select oldest build (lowest id)
+            Build target = builds[0];
+            foreach (Build b in builds)
+                if (target.id > b.id)
+                    target = b;
+            System.Console.WriteLine("Test case id:{0} against test build {1}:{2} recorded as failed",
+                                tcIdToHaveResults, target.id, target.name);
+            GeneralResult result = proxy.ReportTCResult(tcIdToHaveResults, tPlanId, target.id, TestCaseResultStatus.Fail, "test case assigned to older build");
+            Assert.AreEqual(true, result.status);
+            
+        }
+
         // the tests below are not valid
         //[Category("Changes Database")]
         //[Test]
