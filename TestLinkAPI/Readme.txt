@@ -1,6 +1,10 @@
 ﻿TestLink API library
 Copyright (c) 2009, Stephan Meyn <stephanmeyn@gmail.com>
 
+V1.2 Release 5 Dec 2009
+Fixed bug by change in how return value from ListProjects was handled
+Fixed bug that prevented test results being added to older builds.
+
 V 1.0 Release, 12 March 2009
 
 The TestLink API is a .NET library providing access to the XML-RPC API of Testlink.
