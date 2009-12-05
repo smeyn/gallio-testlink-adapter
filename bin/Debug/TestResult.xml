@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="nunitTests.dll" total="10" errors="0" failures="5" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2009-11-25" time="21:06:10">
+  <environment nunit-version="2.5.2.9222" clr-version="2.0.50727.3603" os-version="Microsoft Windows NT 5.1.2600 Service Pack 3" platform="Win32NT" cwd="G:\src\DotNet\testlink\nunitTests\bin\Debug" machine-name="LETHE" user="Stephan" user-domain="LETHE" />
+  <culture-info current-culture="en-AU" current-uiculture="en-US" />
+  <test-suite name="nunitTests.dll" executed="True" success="False" time="0.109" asserts="0">
+    <results>
+      <test-suite name="nunitTests" executed="True" success="False" time="0.109" asserts="0">
+        <results>
+          <test-suite name="Class1Tests" executed="True" success="False" time="0.078" asserts="0">
+            <results>
+              <test-case name="nunitTests.Class1Tests.FailThis" executed="True" success="False" time="0.063" asserts="0">
+                <failure>
+                  <message><![CDATA[Failed because it had to]]></message>
+                  <stack-trace><![CDATA[at nunitTests.Class1Tests.FailThis() in G:\src\DotNet\testlink\nunitTests\Class1.cs:line 23
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case name="nunitTests.Class1Tests.Succeed" executed="True" success="True" time="0.000" asserts="0" />
+            </results>
+          </test-suite>
+          <test-suite name="Class2Tests" executed="True" success="False" time="0.031" asserts="0">
+            <results>
+              <test-case name="nunitTests.Class2Tests.FailThis2" description="this one has to fail" executed="True" success="False" time="0.000" asserts="0">
+                <failure>
+                  <message><![CDATA[Failed because it had to]]></message>
+                  <stack-trace><![CDATA[at nunitTests.Class2Tests.FailThis2() in G:\src\DotNet\testlink\nunitTests\Class2.cs:line 23
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-suite name="MyTest" executed="True" success="False" time="0.031" asserts="0">
+                <results>
+                  <test-case name="nunitTests.Class2Tests.MyTest(1,&quot;A&quot;)" executed="True" success="False" time="0.016" asserts="1">
+                    <failure>
+                      <message><![CDATA[  if A then x needs to be 2
+  Expected: 2
+  But was:  1
+]]></message>
+                      <stack-trace><![CDATA[at nunitTests.Class2Tests.MyTest(Int32 x, String s) in G:\src\DotNet\testlink\nunitTests\Class2.cs:line 35
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="nunitTests.Class2Tests.MyTest(1,&quot;B&quot;)" executed="True" success="True" time="0.000" asserts="1" />
+                  <test-case name="nunitTests.Class2Tests.MyTest(2,&quot;A&quot;)" executed="True" success="True" time="0.000" asserts="1" />
+                  <test-case name="nunitTests.Class2Tests.MyTest(2,&quot;B&quot;)" executed="True" success="False" time="0.016" asserts="1">
+                    <failure>
+                      <message><![CDATA[  If B then x should not be 2
+  Expected: not 2
+  But was:  2
+]]></message>
+                      <stack-trace><![CDATA[at nunitTests.Class2Tests.MyTest(Int32 x, String s) in G:\src\DotNet\testlink\nunitTests\Class2.cs:line 37
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="nunitTests.Class2Tests.MyTest(3,&quot;A&quot;)" executed="True" success="False" time="0.000" asserts="1">
+                    <failure>
+                      <message><![CDATA[  if A then x needs to be 2
+  Expected: 2
+  But was:  3
+]]></message>
+                      <stack-trace><![CDATA[at nunitTests.Class2Tests.MyTest(Int32 x, String s) in G:\src\DotNet\testlink\nunitTests\Class2.cs:line 35
+]]></stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case name="nunitTests.Class2Tests.MyTest(3,&quot;B&quot;)" executed="True" success="True" time="0.000" asserts="1" />
+                </results>
+              </test-suite>
+              <test-case name="nunitTests.Class2Tests.Succeed2" executed="True" success="True" time="0.000" asserts="0" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
