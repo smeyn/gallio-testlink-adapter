@@ -1,0 +1,7 @@
+G:\src\DotNet\testlink\nunitTests\bin\Release\nunitTests.dll
+G:\src\DotNet\testlink\nunitTests\bin\Release\nunitTests.pdb
+G:\src\DotNet\testlink\nunitTests\bin\Release\nunit.framework.dll
+G:\src\DotNet\testlink\nunitTests\bin\Release\nunit.framework.xml
+G:\src\DotNet\testlink\nunitTests\obj\Release\ResolveAssemblyReference.cache
+G:\src\DotNet\testlink\nunitTests\obj\Release\nunitTests.dll
+G:\src\DotNet\testlink\nunitTests\obj\Release\nunitTests.pdb
