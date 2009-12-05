@@ -498,7 +498,15 @@ namespace Meyn.TestLink
             handleErrorMessage(response);
             return handleReportTCResult(response);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tcid">Test case id</param>
+        /// <param name="tpid">test plan id</param>
+        /// <param name="buildId">Build Id</param>
+        /// <param name="status">status</param>
+        /// <param name="notes">any notes</param>
+        /// <returns></returns>
         public GeneralResult ReportTCResult(int tcid, int tpid, int buildId, TestCaseResultStatus status, string notes)
         {
             string statusChar = "";
@@ -508,7 +516,7 @@ namespace Meyn.TestLink
                 case TestCaseResultStatus.Pass: statusChar = "p"; break;
                 case TestCaseResultStatus.Fail: statusChar = "f"; break;
             }
-            object response = proxy.reportTCResult(devkey, tcid, tpid, statusChar, buildId, notes, true);
+            object response = proxy.reportTCResult(devkey, tcid, tpid, statusChar, buildId, notes, false);
             handleErrorMessage(response);
             return handleReportTCResult(response);
         }

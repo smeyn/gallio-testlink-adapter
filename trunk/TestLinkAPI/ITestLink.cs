@@ -117,13 +117,13 @@ namespace Meyn.TestLink
 
 
         [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
-        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, int build, string notes, bool guess);
+        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, int buildid, string notes, bool guess);
         [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
-        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, int build, string notes);
+        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, int buildid, string notes);
         [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
         object reportTCResult(string devKey, int testcaseid, int testplanid, string status, string notes, bool guess);
         [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
-        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, int build);
+        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, int buildid);
         [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
         object reportTCResult(string devKey, int testcaseid, int testplanid, string status, bool guess);
 
