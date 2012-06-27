@@ -1,5 +1,7 @@
 #summary Description of the TestLinkFixture Attribute.
 
+*Update: new argument: ConfigFile*
+
 = Introduction =
 
 The TestLinkFixture Attribute is used to decorate TestFixtures that instucts the TestRunner to export the test results to TestLink.
@@ -28,3 +30,5 @@ Example Values
         TestSuite = "nunitAddOnSampleTests"
         DevKey = "ae28ffa45712a041fa0b31dfacb75e29"
 }}}
+
+Alternatively you can now externalise most or all of this information by  specifying a configuration file. See UsingTheConfigFile
