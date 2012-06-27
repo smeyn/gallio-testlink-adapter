@@ -17,7 +17,7 @@ It then records the test result against that test case.
 Copy all the DLLs into the AddIn directory of the NUnit folder:
 
 == Invocation ==
-In this example the console runner is used:
+In this example the console runner is used. However you can also use the NUNIT GUI:
 {{{
 Nunit-Console.exe [unitTestAssembly]
 }}}
@@ -78,9 +78,12 @@ namespace NunitAddOnSampleTests
 Voila.
 This will create a test case named Test2Succeed and record test case result against it.
 == Limitations ==
-This has been tested with NUnit V 2.5.2 & C# and Testlink V 1.8.2 
+This has been tested with NUnit V 2.6.2 & C# and Testlink V 1.9.3 
 
 It should work with VB.NET.
 
+== Known Defect ==
+The NUnit GUI WILL NOT list the addon in its add on pages. Turning on detailed logging reveals that the Addon is compiled with a newer version of .Net runtime. 
+However it still works.
 
 You use this code at your own risk. 
