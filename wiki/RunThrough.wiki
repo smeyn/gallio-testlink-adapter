@@ -1,5 +1,4 @@
 #summary A Quick Run Through for Gallio Users.
-#labels Featured
 
 = Introduction =
 
@@ -92,7 +91,7 @@ This will create a test case named Test2Succeed and record test case result agai
 == Note ==
 Please make sure the fixture class is marked public. Gallio will run and execute classes not marked public but this adapter won't find the fixture and hence won't export.
 
-ALso look at the new use of the ConfigFile at 
+Also look at the new use of the ConfigFile at UsingTheConfigurationFile  
 
 == Limitations ==
 This has been tested with Gallio & MBUnit V3.0.5 & V3.0.6 & V3.3, C# and Testlink V 1.9.3 
