@@ -31,4 +31,4 @@ Example Values
         DevKey = "ae28ffa45712a041fa0b31dfacb75e29"
 }}}
 
-Alternatively you can now externalise most or all of this information by  specifying a configuration file. See UsingTheConfigFile
+Alternatively you can now externalise most or all of this information by  specifying a configuration file. See UsingTheConfigurationFile.
