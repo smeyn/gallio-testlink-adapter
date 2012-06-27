@@ -21,11 +21,11 @@ Gallio v3.0.5
 {{{
 Gallio.Echo.exe /extension:TestLinkAddOn,TlGallioAddon.dll  [unitTestAssembly]
 }}}
-Gallio v3.0.6
+
+Gallio v3.0.6 to v 3.3
 {{{
 Gallio.Echo.exe /re:TestLinkAddOn,TlGallioAddon.dll   [unitTestAssembly]
 }}}
-
 
 
 If you are using the Gallio NAnt or MSBuild tasks, the process is similar. Refer to the documentation of these tasks for details.  (http://blog.bits-in-motion.com/2008/05/announcing-gallio-v30-alpha-3.html)
@@ -72,6 +72,7 @@ namespace gallioAddOnSampleTests
         UserId = "admin",
         TestPlan = "Automatic Testing",
         TestSuite = "gallioAddOnSampleTests",
+        PlatformName = "Windows Server 2008"
         DevKey = "ae28ffa45712a041fa0b31dfacb75e29")]
     public class SampleFixture
     {
@@ -84,19 +85,20 @@ namespace gallioAddOnSampleTests
 }
 }}}
 
+
 Voila.
 This will create a test case named Test2Succeed and record test case result against it.
 
 == Note ==
-Please make sure the fixture class is marked public. Gallio will run and execute classes no marked public but this adapter won't find the fixture.
+Please make sure the fixture class is marked public. Gallio will run and execute classes not marked public but this adapter won't find the fixture and hence won't export.
 
-There is a new set of binaries for Gallio V3.0.6
+ALso look at the new use of the ConfigFile at 
 
 == Limitations ==
-This has been tested with Gallio & MBUnit V3.0.5 & V3.0.6, C# and Testlink V 1.8RC5. 
+This has been tested with Gallio & MBUnit V3.0.5 & V3.0.6 & V3.3, C# and Testlink V 1.9.3 
 
 It should work with VB.NET.
 
-It may work with NUnit.
+It does work with NUnit.
 
 You use this code at your own risk. 
