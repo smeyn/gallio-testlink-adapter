@@ -1,5 +1,5 @@
+#summary How to make use of the ConfigFile Parameter in the TestLinkFixture Attribute
 #labels Featured
-#Summary How to make use of the ConfigFile Parameter in the TestLinkFixture Attribute
 
 = Introduction =
 
