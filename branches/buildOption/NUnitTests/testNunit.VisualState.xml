@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]G:\src\DotNet\testlink\NUnitTests\testNunit.nunit</TopNode>
+  <SelectedNode>[0-1009]nunitTests.Class2Tests.MyTest(3,"A")</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]G:\src\DotNet\testlink\NUnitTests\testNunit.nunit" Expanded="true" />
+    <Node UniqueName="[0-1014]G:\src\DotNet\testlink\NUnitTests\bin\Debug\nunitTests.dll" Expanded="true" />
+    <Node UniqueName="[0-1015]nunitTests" Expanded="true" />
+    <Node UniqueName="[0-1011]nunitTests.Class1Tests" Expanded="true" />
+    <Node UniqueName="[0-1001]nunitTests.Class2Tests" Expanded="true" />
+    <Node UniqueName="[0-1004]nunitTests.Class2Tests.MyTest" Expanded="true" />
+  </Nodes>
+</VisualState>

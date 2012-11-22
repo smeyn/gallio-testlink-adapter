@@ -1,0 +1,27 @@
+NUnit TestLink Adapter
+Copyright (c) 20012, Stephan Meyn <stephanmeyn@gmail.com>
+V1.2 Release 26 June 2012
+The adaptor has been changed slightly and works with NUnit V2.6
+
+Known Defect, the adaptor wil not show up in the extension listing.
+According to the NUnit logs this is due to the testlink extension 'is built by a runtime newer than the currently loaded runtime'.
+Howecer it still works!
+
+The biggest change is the introduction of the config file. The Testlink Fixture can now specify a configuration file.
+thie configuration file (a simple XML file) can override or provide default values for the Testlink Fixture Attribute.
+This means values such as path to test link, etc, can be easily changed without having to rebuild the test code.
+See tlinkConfig.xml for an example
+
+
+24/11/09 
+Finished interim solution. 
+
+Outstanding Issue: the MSI installed version of Nunit won't load the addin. (version nr wrong in fusion log). 
+Sent a question to Nunit-discuss in google groups
+
+However works with version that has been compiled directly from sources.
+
+Class Test Case Inspector is now irrelevant. 
+TestRunFinished will now see DLL names and then load assemblies to build up dictionary of fixtureAttributes
+
+TestSuite and TestCaseResult are now replaced with TestResult
