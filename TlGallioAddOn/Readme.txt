@@ -1,5 +1,15 @@
 ﻿Gallio TestLink Adapter
-Copyright (c) 2009, Stephan Meyn <stephanmeyn@gmail.com>
+Copyright (c) 20012, Stephan Meyn <stephanmeyn@gmail.com>
+V1.2 Release 26 June 2012
+The adaptor has been changed slightly and works with Gallio V3.3 
+Because of the Gallio Architecture the adaptor only works with the Icarus command line test runner.
+
+The biggest change is the introduction of the config file. The Testlink Fixture can now specify a configuration file.
+thie configuration file (a simple XML file) can override or provide default values for the Testlink Fixture Attribute.
+This means values such as path to test link, etc, can be easily changed without having to rebuild the test code.
+
+
+
 
 V 1.0 Release, 12 March 2009
 

@@ -78,6 +78,7 @@ namespace Meyn.TestLink
         private int testSuiteId;
         private int testPlanId;
         private int testProjectId;
+        private string platformName = string.Empty;
 
         /// <summary>
         /// sets up connection and retrieves basic data
@@ -97,35 +98,30 @@ namespace Meyn.TestLink
         /// <param name="status"></param>
         /// <param name="notes"></param>
         /// <returns></returns>
-        public GeneralResult RecordResult(int testCaseId, TestCaseResultStatus status, string notes)
+        public GeneralResult RecordTheResult(int testCaseId, TestCaseResultStatus status, string notes)
         {
-            GeneralResult result = new GeneralResult();
-            result.status = false;
-            result.message = "Invalid connection";
-
+            GeneralResult result = null;
             if (ConnectionValid == true)
-                result = proxy.ReportTCResult(testCaseId, testPlanId, status, notes.ToString());
-
+                result = proxy.ReportTCResult(testCaseId, testPlanId, status, platformName: platformName, notes: notes.ToString());
+            else
+                result = new GeneralResult("Invalid Connection", false);
             return result;
         }
 
         /// <summary>
         /// get a test case id. If the test case does not exist then create one
         /// </summary>
-        /// <param name="testName"></param>
-        /// <param name="testSuiteId"></param>
-        /// <param name="authorId"></param>
-        /// <param name="projectId"></param>
+        /// <param name="testName"></param>       
         /// <returns>a valid test case id or 0 in case of failure</returns>
-        public int GetTestCaseId(string testName) //, int testSuiteId, string authorId, int projectId, int testPlanId)
+        public int GetTestCaseId(string testName) 
         {
             int TCaseId = getTestCaseByName(testName, testSuiteId);
             if (TCaseId == 0)
             {
                 // need to create test case
-                TestCaseCreationResult result = proxy.CreateTestCase(connectionData.UserId, testSuiteId, testName, testProjectId,
-                    "Automated TestCase", "", "", "", 0,
-                    true, TestLink.ActionOnDuplicatedName.Block, 2, 2);
+                GeneralResult result = proxy.CreateTestCase(connectionData.UserId, testSuiteId, testName, testProjectId,
+                    "Automated TestCase", new TestStep[0], "", 0,
+                    true, ActionOnDuplicatedName.Block, 2, 2);
                 TCaseId = result.additionalInfo.id;
                 int tcExternalId = result.additionalInfo.external_id;
                 if (result.status == false)
@@ -151,9 +147,9 @@ namespace Meyn.TestLink
         /// <param name="testCaseName"></param>
         /// <param name="testSuiteId">the test suite the test case has to be in</param>
         /// <returns>a valid test case id or 0 if no test case was found</returns>
-        private int getTestCaseByName(string testName, int testSuiteId)
+        private int getTestCaseByName(string testCaseName, int testSuiteId)
         {
-            List<TestCaseId> idList = proxy.GetTestCaseIDByName(testName);
+            List<TestCaseId> idList = proxy.GetTestCaseIDByName(testCaseName);
             if (idList.Count == 0)
                 return 0;
             foreach (TestCaseId tc in idList)
@@ -174,7 +170,7 @@ namespace Meyn.TestLink
             bool devKeyDifferent = true;
             bool projectDifferent = true;
             bool planDifferent = true;
-            bool testSuiteDifferent = true;
+            bool testSuiteDifferent = true;            
 
             if (newData == null)
             {
@@ -201,12 +197,14 @@ namespace Meyn.TestLink
                             {
                                 planDifferent = false;
                                 testSuiteDifferent = connectionData.TestSuite != newData.TestSuite;
+                                
                             }
                         }
                     }
                 }
             }
             connectionData = newData;
+            platformName = connectionData.PlatformName;
 
             //attempt a new connection if url or devkey are different
             if (connectionDifferent || devKeyDifferent)
@@ -313,6 +311,7 @@ namespace Meyn.TestLink
             else if (testSuiteId == 0) // it was wrong and hasn't changed
                 return false;
 
+           
             return true;
         }
 

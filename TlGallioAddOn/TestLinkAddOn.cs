@@ -28,7 +28,7 @@ using System;
 using Gallio.Runner.Extensions;
 using Gallio.Runner.Events;
 using System.Diagnostics;
-using Gallio.Runner.Reports;
+using Gallio.Runner.Reports.Schema;
 
 namespace Meyn.TestLink.GallioExporter
 {
@@ -61,7 +61,7 @@ namespace Meyn.TestLink.GallioExporter
                 Debug.WriteLine(string.Format("  {0}= {1}", key, e.TestStepRun.Step.Metadata[key][0]));
             }
 
-            if (e.TestStepRun.Step.CodeReference.Kind == Gallio.Reflection.CodeReferenceKind.Assembly)
+            if (e.TestStepRun.Step.CodeReference.Kind == Gallio.Common.Reflection.CodeReferenceKind.Assembly)
             {
                 exporter.RetrieveTestFixture(e.TestStepRun.Step.FullName, e.TestStepRun.Step.CodeLocation.Path);
             }
@@ -74,11 +74,14 @@ namespace Meyn.TestLink.GallioExporter
         public void runFinished(object sender, RunFinishedEventArgs args)
         {
             Debug.WriteLine("Run Finished");
-            Console.WriteLine("Exporting results to Testlink");
+            Console.WriteLine("Exporting results to Testlink.");
             foreach (TestStepRun run in args.Report.TestPackageRun.AllTestStepRuns)
                 if (run.Step.IsTestCase)
+                {
                     exporter.ReportResult(run);
-
+                    //Console.Write(".");
+                }
+            Console.WriteLine(); ;
             Console.WriteLine("Finished exporting results to Testlink");
             Console.WriteLine();
         }

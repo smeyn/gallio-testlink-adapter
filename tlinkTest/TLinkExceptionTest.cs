@@ -51,7 +51,8 @@ namespace tlinkTest
       UserId = "admin",
       TestPlan = "Automatic Testing",
       TestSuite = "TLinkExceptionTest",
-      DevKey = "b6e8fee35d143cd018d3b683e0777c51")]
+     PlatformName = "Testlink v1.9.3",
+      DevKey = "fb37eb345a5b4f05659d5c35bb3465fd")]
     [TestsOn("TestLinkException")]
         public class exeptionTester
     {

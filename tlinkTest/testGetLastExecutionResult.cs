@@ -26,6 +26,7 @@ DEALINGS IN THE SOFTWARE.
 using System.Collections.Generic;
 using MbUnit.Framework;
 using Meyn.TestLink;
+using System;
 using Meyn.TestLink.GallioExporter;
 
 namespace tlinkTest
@@ -50,14 +51,11 @@ namespace tlinkTest
        UserId = "admin",
        TestPlan = "Automatic Testing",
        TestSuite = "testGetLastExecutionResult",
-       DevKey = "b6e8fee35d143cd018d3b683e0777c51")]
+     PlatformName = "Testlink v1.9.3",
+       DevKey = "fb37eb345a5b4f05659d5c35bb3465fd")]
     public class testGetLastExecutionResult : Testbase
     {
-        //TestLink proxy;
-        //string apiKey = "ae28ffa45712a041fa0b31dfacb75e29";
-        int testPlanId = 108;
-        //int projectId = 1291;
-        //int testsuiteid = 1306;
+        int testPlanId = 11;  // this needs to be the test plan that is currently active and has the two test cases assigned to it
 
         [SetUp]
         public void setup()
@@ -73,8 +71,9 @@ namespace tlinkTest
                
             int id = testcases[0].id;
 
-            List<ExecutionResult> result = proxy.GetLastExecutionResult(testPlanId, id);
-            Assert.IsEmpty(result);
+            ExecutionResult result = proxy.GetLastExecutionResult(testPlanId, id);
+            //Console.WriteLine("Build {0}: status: '{1}'", result.build_id, result.status);
+            Assert.IsNull(result, "Result should be null");    
         }
         [Test]
         [MultipleAsserts]
@@ -84,10 +83,23 @@ namespace tlinkTest
             Assert.IsNotEmpty(testcases, "Setup failed - couldn't find test case");
             int id = testcases[0].id;
 
-            List<ExecutionResult> result = proxy.GetLastExecutionResult(testPlanId, id);
-            Assert.IsNotEmpty(result);
+            ExecutionResult result = proxy.GetLastExecutionResult(testPlanId, id);
+            Assert.IsNotNull(result);
+            Console.WriteLine("Build {0}: status: '{1}' tc_id:{2} tplan id {3}", result.build_id, result.status, result.tcversion_id, result.testplan_id);
+            Assert.AreEqual(TestCaseResultStatus.Pass , result.status);           
+        }
+        [Test]
+        [MultipleAsserts]
+        public void TestShouldHavePassedResult2()
+        {
+            List<TestCaseId> testcases = proxy.GetTestCaseIDByName("Test Case with many results", "child test suite with test cases");
+            Assert.IsNotEmpty(testcases, "Setup failed - couldn't find test case");
+            int id = testcases[0].id;
 
-            Assert.AreEqual('p', result[0].status);           
+            ExecutionResult result = proxy.GetLastExecutionResult(testPlanId, id);
+            Assert.IsNotNull(result);
+            Console.WriteLine("Build {0}: status: '{1}'", result.build_id, result.status);
+            Assert.AreEqual(TestCaseResultStatus.Pass, result.status);
         }
     }
 }

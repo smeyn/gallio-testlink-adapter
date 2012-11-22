@@ -50,29 +50,38 @@ namespace tlinkTest
         ProjectName = "TestLinkApi",
         UserId = "admin",
         TestPlan = "Automatic Testing",
-        TestSuite = "TestCaseCreation",
-        DevKey = "b6e8fee35d143cd018d3b683e0777c51")]
+        TestSuite = "TestCaseCreation Tests",
+     PlatformName = "Testlink v1.9.3",
+        DevKey = "fb37eb345a5b4f05659d5c35bb3465fd")]
     public class TestCaseCreation : Testbase
     {
+
+        int platformId;
+
         [SetUp]
         public void setup()
         {
             base.Setup();
             Assert.IsNotNull(AllProjects);
-           
+            platformId = Platforms[0].id;           
         }
         [Test]
         [MultipleAsserts]
         public void createAUniqueTestCase()
         {
             string uniqueName = string.Format("unitTest created at {0}", DateTime.Now);
-            TestCaseCreationResult result = proxy.CreateTestCase(userName, 
+
+            TestStep[] steps = new TestStep[3];
+            steps[0] = new TestStep(1, "<p>Step 1</p>", "<p>result 1</p>", true, 1);
+            steps[1] = new TestStep(2, "<p>Step 2</p>", "<p>result 2</p>", true, 1);
+            steps[2] = new TestStep(3, "<p>Step 3</p>", "<p>result 3</p>", true, 1);
+
+            GeneralResult result = proxy.CreateTestCase(userName, 
                 BusinessRulesTestSuiteId, uniqueName, ApiTestProjectId,
-                 "This is a summary for an externally created test case",
-                 "<p>Step 1</p><p>step 2</p><p>step 3</p><p>step 4</p>",
-                 "<p>result 1</p><p>result 2</p><p>result 3</p><p>result 4</p>",
+                "This is a summary", 
+                steps,
                  "auto,positive", 0, true, 
-                 TestLink.ActionOnDuplicatedName.CreateNewVersion, 2, 2);
+                 ActionOnDuplicatedName.CreateNewVersion, 2, 2);
             Assert.AreEqual(true, result.status);
             Assert.AreEqual("Success!", result.message);
 		    Assert.AreEqual("createTestCase", result.operation);	
@@ -88,13 +97,10 @@ namespace tlinkTest
         public void createANewVersion()
         {
             string tcName ="externally created test case";
-            TestCaseCreationResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
-                tcName, ApiTestProjectId,
-                 "This is a summary for an externally created test case",
-                 "<p>Step 1</p><p>step 2</p><p>step 3</p><p>step 4</p>",
-                 "<p>result 1</p><p>result 2</p><p>result 3</p><p>result 4</p>",
+            GeneralResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
+                tcName, ApiTestProjectId,"A summary",
                  "auto,positive", 0, true, 
-                 TestLink.ActionOnDuplicatedName.CreateNewVersion,
+                 ActionOnDuplicatedName.CreateNewVersion,
                  2, 2);
             Assert.AreEqual(true, result.status);
             Assert.AreEqual("Success!", result.message);
@@ -111,23 +117,27 @@ namespace tlinkTest
         public void VersionIncrementTest()
         {
             string tcName = "version Number test case";
-            TestCaseCreationResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
+            GeneralResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
                 tcName, ApiTestProjectId,
-                 "This is a summary for an externally created test case",
-                 "<p>Step 1</p><p>step 2</p><p>step 3</p><p>step 4</p>",
-                 "<p>result 1</p><p>result 2</p><p>result 3</p><p>result 4</p>",
+                 "This is a summary for an externally created test case",                
                  "auto,positive", 0, true,
-                 TestLink.ActionOnDuplicatedName.CreateNewVersion
+                 ActionOnDuplicatedName.CreateNewVersion
                  , 2, 2);
+
+
             int versionNumber = result.additionalInfo.version_number;
             Console.WriteLine("Version Number first pass: {0}", result.additionalInfo.version_number);
+
+            TestStep[] steps = new TestStep[3];
+            steps[0] = new TestStep(1, "<p>Step 1</p>", "<p>result 1</p>", true, 1);
+            steps[1] = new TestStep(2, "<p>Step 2</p>", "<p>result 2</p>", true, 2);
+            steps[2] = new TestStep(3, "<p>Step 3</p>", "<p>result 3</p>", true, 1);
+
             result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
                 tcName, ApiTestProjectId,
-                 "This is a summary for an externally created test case",
-                 "<p>Step 1</p><p>step 2</p><p>step 3</p><p>step 4</p>",
-              "<p>result 1</p><p>result 2</p><p>result 3</p><p>result 4</p>",
+                 "This is a different summary for an externally created test case", steps,
               "auto,positive", 0, true,
-              TestLink.ActionOnDuplicatedName.CreateNewVersion, 
+              ActionOnDuplicatedName.CreateNewVersion, 
               2, 2);
             Console.WriteLine("Version Number second pass: {0}", result.additionalInfo.version_number);
             Assert.AreEqual(versionNumber + 1, result.additionalInfo.version_number, "Version number should have been incremented");
@@ -137,12 +147,10 @@ namespace tlinkTest
         [Category("Changes Database")]
         public void TestBlock()
         {
-            TestCaseCreationResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
+            GeneralResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
                 "externally created test case", ApiTestProjectId,
                  "This is a summary for an externally created test case",
-                 "<p>Step 1</p><p>step 2</p><p>step 3</p><p>step 4</p>",
-                 "<p>result 1</p><p>result 2</p><p>result 3</p><p>result 4</p>",
-                 "auto,positive", 0, true, TestLink.ActionOnDuplicatedName.Block
+                 "auto,positive", 0, true, ActionOnDuplicatedName.Block
                    
                  , 2, 2);
             Assert.AreEqual(true, result.status);
@@ -162,16 +170,14 @@ namespace tlinkTest
         public void createDuplicateNotNewVersion()
         {
             string tcName = "externally created test case";
-            TestCaseCreationResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
+            GeneralResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
                 tcName, ApiTestProjectId,
                  "This is a summary for an externally created test case",
-                 "<p>Step 1</p><p>step 2</p><p>step 3</p><p>step 4</p>",
-                 "<p>result 1</p><p>result 2</p><p>result 3</p><p>result 4</p>",
-                 "auto,positive", 0, true, TestLink.ActionOnDuplicatedName.GenerateNew, 2, 2);
+                 "auto,positive", 0, true, ActionOnDuplicatedName.GenerateNew, 2, 2);
             Assert.AreEqual(true, result.status);
             Assert.AreEqual("Success!", result.message);
             Assert.AreEqual("createTestCase", result.operation);
-            Assert.AreEqual(tcName, result.additionalInfo.new_name);
+            //Assert.AreEqual(tcName, result.additionalInfo.new_name); - no longer true the new name has a date prefixed
             Assert.AreEqual(true, result.additionalInfo.status_ok);
             Assert.StartsWith(result.additionalInfo.msg, "Created with title");
             Assert.AreNotEqual(-1, result.additionalInfo.id);
@@ -187,12 +193,10 @@ namespace tlinkTest
         public void ShouldRejectBecauseOfInvalidData()
         {
             string tcName = "externally created test case";
-            TestCaseCreationResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
+            GeneralResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
                 tcName, 0,
                  "This is a summary for an externally created test case",
-                 "<p>Step 1</p><p>step 2</p><p>step 3</p><p>step 4</p>",
-                 "<p>result 1</p><p>result 2</p><p>result 3</p><p>result 4</p>",
-                 "auto,positive", 0, true,  TestLink.ActionOnDuplicatedName.GenerateNew,  2, 2);
+                 "auto,positive", 0, true,  ActionOnDuplicatedName.GenerateNew,  2, 2);
          }
 
         [Test]
@@ -200,18 +204,16 @@ namespace tlinkTest
         public void AddTestCaseToTestPlan()
         {
             string tcName = "externally created test case";
-            TestCaseCreationResult newTestResult = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
+            GeneralResult newTestResult = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
                 tcName, ApiTestProjectId,
                  "This is a summary for an externally created test case",
-                 "<p>Step 1</p><p>step 2</p><p>step 3</p><p>step 4</p>",
-                 "<p>result 1</p><p>result 2</p><p>result 3</p><p>result 4</p>",
-                 "auto,positive", 0, true,  TestLink.ActionOnDuplicatedName.GenerateNew,  2, 2);
+                 "auto,positive", 0, true,  ActionOnDuplicatedName.GenerateNew,  2, 2);
 
             string prefix = ApiTestProject.prefix;
             string extid = string.Format("{0}-{1}", prefix, newTestResult.additionalInfo.external_id);
             TestPlan plan = getTestPlan(theTestPlanName);
 
-            int result = proxy.addTestCaseToTestPlan(ApiTestProject.id, plan.id, extid, 1);
+            int result = proxy.addTestCaseToTestPlan(ApiTestProject.id, plan.id, extid, 1, platformId);
             Assert.AreNotEqual(0, result);
            
         }
@@ -222,12 +224,10 @@ namespace tlinkTest
         public void testExternalId()
         {
             string tcName = "externally created test case";
-            TestCaseCreationResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
+            GeneralResult result = proxy.CreateTestCase(userName, BusinessRulesTestSuiteId,
                 tcName, ApiTestProjectId,
                  "This is a summary for an externally created test case",
-                 "<p>Step 1</p><p>step 2</p><p>step 3</p><p>step 4</p>",
-                 "<p>result 1</p><p>result 2</p><p>result 3</p><p>result 4</p>",
-                 "auto,positive", 0, true,  TestLink.ActionOnDuplicatedName.GenerateNew, 
+                 "auto,positive", 0, true,  ActionOnDuplicatedName.GenerateNew, 
                  2, 2);
 
             string extId = string.Format("TAPI-{0}", result.additionalInfo.external_id);

@@ -98,8 +98,9 @@ namespace Meyn.TestLink.GallioExporter
         /// export the result of the run to TestLink. As a sideeffect, this may create a test case
         /// </summary>
         /// <param name="data"></param>
-        public void ReportResult(TestStepRun data)
+        public void ReportResult(Gallio.Runner.Reports.Schema.TestStepRun data)
         {
+            
             try
             {
                 TestLinkFixtureAttribute tlfa = getFixture(data.Step.FullName);
@@ -115,12 +116,17 @@ namespace Meyn.TestLink.GallioExporter
 
 
                 string TestName = data.Step.Name;
-
+                // Console.WriteLine(TestName);
                 if (adaptor.ConnectionValid)
                 {
                     int tcid = adaptor.GetTestCaseId(TestName);
                     if (tcid > 0)
+                    {
+                        //Console.Write("1");
                         recordResult(data, tcid);
+                        
+                    }
+                    else Console.WriteLine("Could not find test case named '{0}'", TestName);
                 }
                 else
                     Console.WriteLine(" -- Failed to export {0} --", TestName);
@@ -128,6 +134,7 @@ namespace Meyn.TestLink.GallioExporter
             catch (TestLinkException tlex)
             {
                 Debug.WriteLine(tlex.Message);
+                Console.WriteLine(tlex.Message);
             }
             catch (Exception ex)
             {
@@ -138,8 +145,9 @@ namespace Meyn.TestLink.GallioExporter
         }
 
   //      private void recordResult(TestStepRun data, TestLinkFixtureAttribute tlfa, int testPlanId, int TCaseId)
-        private void recordResult(TestStepRun data,  int TCaseId)
+        private void recordResult(Gallio.Runner.Reports.Schema.TestStepRun data,  int TCaseId)
         {
+            //Console.Write("2");
             TestCaseResultStatus status = TestCaseResultStatus.Blocked;//= (data.Result.Outcome.Status == TestStatus.Passed)
                 //? TestCaseResultStatus.Pass : TestCaseResultStatus.Fail;
 
@@ -160,9 +168,9 @@ namespace Meyn.TestLink.GallioExporter
             //    (data.Result.Outcome.Status == TestStatus.Passed) ? "p" : "f",
             //   notes));
 
-            
-            GeneralResult reportResult = adaptor.RecordResult(TCaseId, status, notes);//proxy.ReportTCResult(TCaseId, testPlanId, status, notes);
-
+            //Console.Write("3");
+            GeneralResult reportResult = adaptor.RecordTheResult(TCaseId, status, notes);//proxy.ReportTCResult(TCaseId, testPlanId, status, notes);
+            //Console.Write("4");
             if (reportResult.status == true)
                 Console.WriteLine("Recorded test run result for {0} as {1}",
                     data.Step.Name, data.Result.Outcome);
@@ -185,9 +193,9 @@ namespace Meyn.TestLink.GallioExporter
             if (TCaseId == 0)
             {
                 // need to create test case
-                TestCaseCreationResult result = proxy.CreateTestCase(authorId, testSuiteId, testName, projectId,
-                    "Automated TestCase", "", "", "", 0,
-                    true, TestLink.ActionOnDuplicatedName.Block , 2, 2);
+                GeneralResult result = proxy.CreateTestCase(authorId, testSuiteId, testName, projectId,
+                    "Automated TestCase",  "", 0,
+                    true, ActionOnDuplicatedName.Block , 2, 2);
                 TCaseId = result.additionalInfo.id;
                 int tcExternalId = result.additionalInfo.external_id;
                 if (result.status == false)
