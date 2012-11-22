@@ -54,7 +54,8 @@ namespace tlinkTest
         UserId = "admin",
         TestPlan = "Automatic Testing",
         TestSuite = "SmokeTests",
-        DevKey = "b6e8fee35d143cd018d3b683e0777c51")]
+        PlatformName = "Testlink v1.9.3",
+        DevKey = "fb37eb345a5b4f05659d5c35bb3465fd")]
     public class SmokeTests : Testbase
     {
 
@@ -67,8 +68,22 @@ namespace tlinkTest
         [Test]
         public void SayHello()
         {
+            
             string result = proxy.SayHello();
             Assert.AreEqual("Hello!", result, "Unexpected Server Response");
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void TestThatTestDBisProperlySetup()
+        {
+            Assert.IsNotNull(ApiTestProject, "Can't run tests. Project named {0} is not set up.", testProjectName);
+            int empty = EmptyProjectId;
+            Assert.AreNotEqual(0, empty, "Can't run tests. Empty Project named '{0}' is not set up.", emptyProjectName);
+            Assert.AreNotEqual(0, BusinessRulesTestSuiteId, "Setup failed to find test suite named '{0}'", testSuiteName2);
+            Assert.IsNotNull(PlanCalledAutomatedTesting, "Can't run tests. need to have at least one testplan named {1} defined for project '{0}' .", testProjectName, theTestPlanName);
+            List<TestPlatform> platforms = Platforms;
+            Assert.IsNotEmpty(platforms, "Can't run tests. need to have at least one platform defined for project '{0}' .", testProjectName);
         }
 
         [Test]
@@ -81,20 +96,40 @@ namespace tlinkTest
         }
 
         [Test]
-        [ExpectedException(typeof(CookComputing.XmlRpc.XmlRpcException))]
+        [ExpectedException(typeof(CookComputing.XmlRpc.XmlRpcServerException))]
         public void shouldFailBecauseOfInvalidURL()
         {
             proxy = new TestLink(apiKey, "http://localhost/testlink/api/xmlrpc.php");
             string result = proxy.SayHello();
             Assert.AreNotEqual("Hello!", result, "Unexpected Server Response");
-
+            Assert.Fail("Did not cause an exception");
         }
 
-
+        [Test]
+        [ExpectedException(typeof(Meyn.TestLink.TestLinkException))]
+        public void shouldFailBecauseOfInvalidDevKey()
+        {
+            proxy = new TestLink("", targetDBUrl);
+            List<TestCaseId> tcidList = proxy.GetTestCaseIDByName("10 G shock");
+            string result = proxy.SayHello();
+            Assert.AreNotEqual("Hello!", result, "Unexpected Server Response");
+            Assert.Fail("Did not cause an exception");
+        }
 
         [Test]
-        [Row(4,  "10 G shock", "Handheld devices")]
-        [Row(6, "Gamma Ray Storm", "Handheld devices")]
+        [ExpectedException(typeof(Meyn.TestLink.TestLinkException))]
+        public void shouldFailBecauseOfNullDevKey()
+        {
+            proxy = new TestLink(null, targetDBUrl);
+            List<TestCaseId> tcidList = proxy.GetTestCaseIDByName("10 G shock");
+            string result = proxy.SayHello();
+            Assert.AreNotEqual("Hello!", result, "Unexpected Server Response");
+            Assert.Fail("Did not cause an exception");
+        }
+
+        [Test]
+        [Row(5,  "10 G shock", "Handheld devices")]
+        [Row(7, "Gamma Ray Storm", "Handheld devices")]
         public void GetTestCase(int id, string name, string testSuiteId)
         {
            List<TestCaseId> tcidList = proxy.GetTestCaseIDByName(name);
@@ -104,5 +139,15 @@ namespace tlinkTest
            Assert.AreEqual(name, tcid.name);
            Assert.AreEqual(testSuiteId, tcid.tsuite_name);
         }
+        [Test]
+        [Row("joe", true)]
+        [Row("admin", true)]
+        [Row("Nonexistentuser", false)]
+        public void testUserExists(string userName, bool shouldExist)
+        {
+            bool result = proxy.DoesUserExist(userName);
+            Assert.AreEqual<bool>(shouldExist, result, "tried user {0} and got result {1}", userName, shouldExist);
+        }
+
     }
 }

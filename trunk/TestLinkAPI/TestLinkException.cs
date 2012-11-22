@@ -30,10 +30,21 @@ using System.Runtime.Serialization;
 
 namespace Meyn.TestLink
 {
+    /// <summary>
+    /// basic exception thrown whenever Testlink returns an error
+    /// </summary>
    [Serializable]
     public class TestLinkException : ApplicationException
     {
-       public TestLinkException() : base("TestLinkAPI.TestLinkException: testlink returned error messages.") { }
+       /// <summary>
+       /// basic Constructor
+       /// </summary>
+        public TestLinkException() : base("TestLinkAPI.TestLinkException: testlink returned error messages.") { }
+       /// <summary>
+       /// vConstructor that can take an inner exception
+       /// </summary>
+       /// <param name="msg"></param>
+       /// <param name="innerException"></param>
         public TestLinkException(string msg, Exception innerException) : base(msg, innerException) { }
 
         protected TestLinkException(SerializationInfo info, StreamingContext context) : base(info, context) { }
@@ -43,6 +54,10 @@ namespace Meyn.TestLink
             base.GetObjectData(info, context); 
         }
 
+        /// <summary>
+        /// constructor that takes a list of error messages
+        /// </summary>
+        /// <param name="errs"></param>
         public TestLinkException(List<TLErrorMessage> errs)
             : base("TestLinkException: testlink returned error messages. See errors")
         {
@@ -50,6 +65,11 @@ namespace Meyn.TestLink
             foreach (TLErrorMessage error in errs)
                 base.Data.Add(error.code, error.message);
         }
+       /// <summary>
+       /// constructor 
+       /// </summary>
+       /// <param name="msg"></param>
+       /// <param name="errs"></param>
         public TestLinkException(string msg, List<TLErrorMessage> errs)
             : base(msg)
         {
@@ -57,11 +77,21 @@ namespace Meyn.TestLink
             foreach (TLErrorMessage error in errs)
                 base.Data.Add(error.code, error.message);
         }
-
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="msg"></param>
         public TestLinkException(string msg) : base(msg) { }
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="fmt"></param>
+       /// <param name="args"></param>
         public TestLinkException(string fmt, params object[] args) : base(string.Format(fmt, args)) { }
 
-
+       /// <summary>
+       /// temporarily stores current errors
+       /// </summary>
         public List<TLErrorMessage> errors;
     }
 }

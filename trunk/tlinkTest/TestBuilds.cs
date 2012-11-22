@@ -52,21 +52,10 @@ namespace tlinkTest
      UserId = "admin",
      TestPlan = "Automatic Testing",
      TestSuite = "TestBuilds",
-     DevKey = "b6e8fee35d143cd018d3b683e0777c51")]
+     PlatformName = "Testlink v1.9.3",
+     DevKey = "fb37eb345a5b4f05659d5c35bb3465fd")]
     public class TestBuilds : Testbase
     {
-       // string apiKey = "ae28ffa45712a041fa0b31dfacb75e29";
-
-        //int apiTestProjectId;// = 1291;
-        //int emptyProjectId;
-        //const string testPlanName = "Automated Testing";
-        //int testsuiteid = 1306;
-
-        //TestLink proxy;
-        //TestProject project;
-        
-
-  
 
         [SetUp]
         public void setup()
@@ -98,6 +87,25 @@ namespace tlinkTest
         {
            Build latest = proxy.GetLatestBuildForTestPlan(PlanCalledAutomatedTesting.id);
            Assert.IsNotNull(latest, "couldn't find a latest build");
+        }
+
+        [Test]
+        public void ShouldGetNoBuild()
+        {
+            // need a test project with no builds
+            TestPlan tp = getTestPlan(emptyTestplanName);
+            Assert.IsNotNull(tp, "Test can't proceed, testplan '{0}' couldn't be found");
+            Build build = proxy.GetLatestBuildForTestPlan(tp.id);
+            Assert.IsNull(build, "{0} should have no builds", emptyTestplanName);
+        }
+
+        [Test]
+        public void ShouldGetEmptyList()
+        {
+            TestPlan tp = getTestPlan(emptyTestplanName);
+            Assert.IsNotNull(tp, "Test can't proceed, testplan '{0}' couldn't be found");
+            List<Build> builds = proxy.GetBuildsForTestPlan(tp.id);
+            Assert.IsEmpty(builds);
         }
     }
 }

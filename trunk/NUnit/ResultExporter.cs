@@ -26,6 +26,7 @@ DEALINGS IN THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Core.Extensibility;
 using NUnit.Core;
 using System.Reflection;
 using System.IO;
@@ -171,6 +172,7 @@ namespace Meyn.TestLink.NUnitExport
                 if (fixtures.ContainsKey(testFixtureName))
                 {
                     Meyn.TestLink.TestLinkFixtureAttribute tlfa = fixtures[testFixtureName];
+                    //tlfa.ConsiderConfigFile(); // ensure that a config file is read in
                     reportResult(result, tlfa);
                 }
                 else
@@ -212,6 +214,7 @@ namespace Meyn.TestLink.NUnitExport
                 if (adaptor.ConnectionValid == false)
                 {
                     log.Warning(string.Format("Failed to export tesult for testcase {0}", result.Name));
+                    Console.WriteLine("Can't export results because invalid connection");
                     return;
                 }
 
@@ -220,10 +223,14 @@ namespace Meyn.TestLink.NUnitExport
                     int TCaseId = adaptor.GetTestCaseId(TestName);
 
                     if (TCaseId > 0)
-                        recordResult(result, tlfa, TCaseId);
+                    {
+                        sendResultToTestlink(result, tlfa, TCaseId);
+                        //Console.WriteLine("exported testcase '{0}'. ", TestName);
+                    }
                 }
                 catch (TestLinkException tlex)
                 {
+                    Console.WriteLine("Failed to export testcase '{0}'. {1}", TestName, tlex.Message);
                     log.Error(string.Format("Failed to export testcase '{0}'. {1}", TestName, tlex.Message));
                 }
             }
@@ -244,7 +251,7 @@ namespace Meyn.TestLink.NUnitExport
         /// <param name="tlfa"></param>
         /// <param name="testPlanId"></param>
         /// <param name="TCaseId"></param>
-        private void recordResult(TestResult tcResult , TestLinkFixtureAttribute tlfa,  int TCaseId)
+        private void sendResultToTestlink(TestResult tcResult , TestLinkFixtureAttribute tlfa,  int TCaseId)
         {
             TestCaseResultStatus status = TestCaseResultStatus.Blocked;
 
@@ -270,9 +277,10 @@ namespace Meyn.TestLink.NUnitExport
                 case ResultState.Error: status = TestCaseResultStatus.Fail; break;                  
             }
 
-            GeneralResult result = adaptor.RecordResult(TCaseId, status, notes.ToString());
+            GeneralResult result = adaptor.RecordTheResult(TCaseId, status, notes.ToString());
             if (result.status != true)
             {
+                Console.WriteLine("Failed to export Result. Testlink reported: '{0}'", result.message);
                 log.Warning(string.Format("Failed to export Result. Testlink reported: '{0}'", result.message));
             }
             else
@@ -309,8 +317,12 @@ namespace Meyn.TestLink.NUnitExport
                     TestLinkFixtureAttribute tlfa = attribute as TestLinkFixtureAttribute;
                     if (tlfa != null)
                     {
-                        fixtures.Add(t.FullName, tlfa);
+                        tlfa.ConsiderConfigFile(Path.GetDirectoryName(path)); // trigger the attribute to look for a config file which may overload individual items
                         log.Info(string.Format("Found fixture attribute for test fixture: {0}", t.FullName));
+                        if (fixtures.ContainsKey(t.FullName))
+                            fixtures[t.FullName] = tlfa;
+                        else
+                            fixtures.Add(t.FullName, tlfa);
                     }
                 }
             }

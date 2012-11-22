@@ -21,8 +21,8 @@
 
 	<root>
 		<level value="Error" />
-	  <!-- currently no logging
     <appender-ref ref="RollingFile" />
+	  <!-- currently no logging
     <appender-ref ref="console" /> 
     -->
 	</root>

@@ -1,6 +1,30 @@
 ﻿TestLink API library
 Copyright (c) 2009, Stephan Meyn <stephanmeyn@gmail.com>
 
+V1.3 Release 26 June 2012
+This release is a major rework of the previous release - reflecting the changes that have occured in Testlink beetween versions 1.8 and 1.9
+- Implemented more function calls, including uploading of attachments. 
+- More refactoring
+- extended the regression test suite.
+
+
+V1.3a Pre-release 17 May 2012
+Recompiled in C# V4
+Adapted to Testlink V1.9.3 (Prague)
+Modified function calls:
+- ReportTC Result now has a single call and supports optional parameters, reflects testplanid
+
+New Function Calls:
+- CreateBuild
+- CreateTestPlan
+- CreateTestSuite
+- GetProjectTestPlans
+- GetTestPlanByName
+- getTestPlanPlatforms
+
+Fixed bugs where returns could not be parsed into XMLRPC Structs
+Dealt with Bug fixes in TLINK
+
 V1.2 Release 5 Dec 2009
 Fixed bug by change in how return value from ListProjects was handled
 Fixed bug that prevented test results being added to older builds.

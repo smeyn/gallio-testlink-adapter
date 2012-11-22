@@ -25,8 +25,9 @@ DEALINGS IN THE SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
+using System.Xml;
 
 namespace Meyn.TestLink
 {
@@ -104,6 +105,25 @@ namespace Meyn.TestLink
             get { return testSuite; }
             set { testSuite = value; }
         }
+
+        private string platformName;
+        public string PlatformName
+        {
+            get { return platformName; }
+            set { platformName = value; }
+        }
+
+
+        private string configFile;
+        /// <summary>
+        /// path to a configuration file to override settings here
+        /// </summary>
+        public string ConfigFile
+        {
+            get { return configFile; }
+            set { configFile = value; }
+        }
+
         public TestLinkFixtureAttribute()
         {
         }
@@ -119,6 +139,7 @@ namespace Meyn.TestLink
             if (other == null)
                 return false;
             return ((other.devKey.Equals(devKey))
+                && (other.configFile.Equals(configFile))
                 && (other.projectName.Equals(projectName))
                 && (other.testPlan.Equals(testPlan))
                 && (other.testSuite.Equals(testSuite))
@@ -129,11 +150,80 @@ namespace Meyn.TestLink
         public override int GetHashCode()
         {
             return (devKey.GetHashCode()
+                 ^ configFile.GetHashCode()
                  ^ projectName.GetHashCode()
                  ^ testPlan.GetHashCode()
                  ^ testSuite.GetHashCode()
                  ^ url.GetHashCode()
                  ^ userId.GetHashCode());
+        }
+
+        /// <summary>
+        /// check to see if a config file is specified. If it is, 
+        /// read it in and apply it as default value. 
+        /// </summary>
+        /// <param name="directory">the directory where to look for the config file</param>
+        /// <remarks>if the attribute already has a value for a key then ignore the config file settings</remarks>
+        /// <returns></returns>
+        public bool ConsiderConfigFile(string directory)
+        {
+
+            if((configFile == null) || (configFile == string.Empty))
+              return false;
+
+            if (Path.IsPathRooted(configFile) == false)
+            {
+                configFile = Path.Combine(directory, configFile);
+            }       
+            
+            Console.WriteLine("Reading config file {0}", configFile);
+            if (File.Exists(configFile) == false)
+            {
+               string absPath = Path.GetFullPath(configFile);
+               Console.WriteLine("config file not found in {0}", absPath);
+                return false;
+            }
+            
+           
+            XmlDocument doc = new XmlDocument();
+            doc.Load(ConfigFile);
+            // check for elements for each attribute
+            // Use the value if:
+            //  - it is present, and
+            //  - not set in attribute, or
+            //  - override is set
+            url = updateAttributeFromConfigFile(doc, url, "url"); 
+            projectName = updateAttributeFromConfigFile(doc, projectName, "ProjectName");
+            userId = updateAttributeFromConfigFile(doc,userId, "UserId");
+            testPlan = updateAttributeFromConfigFile(doc, testPlan, "TestPlan");
+            testSuite = updateAttributeFromConfigFile(doc, testSuite, "TestSuite");
+            platformName = updateAttributeFromConfigFile(doc, platformName,"PlatformName");
+            devKey = updateAttributeFromConfigFile(doc, devKey, "DevKey");
+            
+            return true;
+        }
+
+        /// <summary>
+        /// interpret the configuration setting for a particular attribute
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="existingValue">the existing value for the attribute</param>
+        /// <param name="attributeName">the name of the attribute</param>
+        /// <returns></returns>
+        private string updateAttributeFromConfigFile(XmlDocument doc, string existingValue, string attributeName)
+        {
+            string path2Attribute = string.Format("/TestLinkFixtureConfiguration/{0}[@value]", attributeName);
+            XmlNode Node = doc.SelectSingleNode(path2Attribute);
+            if (Node == null)
+                return existingValue;
+            XmlAttribute overrrideAttr = Node.Attributes["override"];
+            bool isOverride = false;
+            if (overrrideAttr != null) 
+                isOverride = overrrideAttr.Value.ToLower() == "yes";
+            if ((existingValue == null) || isOverride)
+                return Node.Attributes["value"].Value;
+            else
+                return existingValue;
         }
     }
 }

@@ -9,12 +9,8 @@ namespace nunitTests
 {
     [TestFixture]
     [TestLinkFixture(
-    Url = "http://localhost/testlink/lib/api/xmlrpc.php",
-    ProjectName = "FMFS",
-    UserId = "admin",
-    TestPlan = "Automatic Testing",
-    TestSuite = "nunitAddOnSampleTests",
-    DevKey = "b6e8fee35d143cd018d3b683e0777c51")]
+    ConfigFile = "tlinkconfig.xml",
+    TestSuite = "nunitAddOnSampleTests")]
     public class Class1Tests
     {
         [Test]
