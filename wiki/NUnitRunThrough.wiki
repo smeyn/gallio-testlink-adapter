@@ -87,3 +87,38 @@ The NUnit GUI WILL NOT list the addon in its add on pages. Turning on detailed l
 However it still works.
 
 You use this code at your own risk. 
+
+
+== Troubleshooting ==
+If the add in does not appear to work you need to take a look at the 
+NUnit log out put:
+
+1. Open the NUnit GUI and select: Tools>Settings
+2. Under Advanced Settings > Internal Trace set Verbose
+3. Note the path for the log file in that tab. It is something like C:\Users\<username>\AppData\local\Nunit\Logs
+4. Start Nunit.exe
+5. Check the log file called nunit-agent_<nnnn>.log
+
+you should find something like this
+{{{
+00:43:32.505 Info  [ 1] ServiceManager: Initializing AddinManager
+00:43:32.508 Debug [ 1] ServiceManager: Request for service IAddinRegistry satisfied by AddinRegistry
+00:43:32.515 Debug [ 1] AddinManager: Loaded CookComputing.XmlRpcV2.dll
+00:43:32.519 Debug [ 1] AddinManager: Loaded log4net.dll
+00:43:32.529 Debug [ 1] AddinManager: Loaded TestLinkAPI.dll
+00:43:32.531 Debug [ 1] AddinManager: Loaded TestLinkFixture.dll
+00:43:32.532 Debug [ 1] AddinManager: Loaded TlNUnitAddOn.dll
+00:43:32.534 Debug [ 1] AddinManager: Registered addin: TestLinkAddon
+}}}
+
+If you find something like this:
+{{{
+19:16:39.545 Error [ 1] AddinManager: Failed to loadC:\Program Files (x86)\NUnit 2.6.2\bin\addins\TestLinkAPI.dll
+System.BadImageFormatException: Could not load file or assembly 'TestLinkAPI' or one of its dependencies. This assembly is built by a runtime newer than the currently loaded runtime and cannot be loaded.
+File name: 'TestLinkAPI' ---> System.BadImageFormatException: Could not load file or assembly 'TestLinkAPI' or one of its dependencies. This assembly is built by a runtime newer than the currently loaded runtime and cannot be loaded.
+File name: 'TestLinkAPI'
+}}}
+
+then most likely the version of NUnit is newer than the version that was used as a reference when the AddOn was compiled.
+
+In this case you need to get the sources, open them in VS 2010 Express or VS 2010, point the references for NUnit to the version you are using and recompile.
