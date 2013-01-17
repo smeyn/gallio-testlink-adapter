@@ -93,11 +93,11 @@ You use this code at your own risk.
 If the add in does not appear to work you need to take a look at the 
 NUnit log out put:
 
-1. Open the NUnit GUI and select: Tools>Settings
-2. Under Advanced Settings > Internal Trace set Verbose
-3. Note the path for the log file in that tab. It is something like C:\Users\<username>\AppData\local\Nunit\Logs
-4. Start Nunit.exe
-5. Check the log file called nunit-agent_<nnnn>.log
+ # Open the NUnit GUI and select: Tools>Settings
+ # Under Advanced Settings > Internal Trace set Verbose
+ # Note the path for the log file in that tab. It is something like  {{{C:\Users\<username>\AppData\local\Nunit\Logs}}}
+ # Start Nunit.exe
+ # Check the log file called {{{nunit-agent_<nnnn>.log}}}
 
 you should find something like this
 {{{
