@@ -1,4 +1,4 @@
-﻿/* 
+ /* 
 TestLink API library
 Copyright (c) 2009, Stephan Meyn <stephanmeyn@gmail.com>
 
@@ -256,6 +256,22 @@ namespace Meyn.TestLink
                 retval.Add(b);
             }
             return retval;
+        }
+
+        /// <summary>
+        /// return a build by its name
+        /// </summary>
+        /// <param name="buildName"></param>
+        /// <param name="testplanid"></param>
+        /// <remarks>Buildnames in a project are unique</remarks>
+        /// <returns></returns>
+        public Build GetBuildNamed(string buildName, int testplanid)
+        {
+            List<Build> builds = GetBuildsForTestPlan(testplanid);
+            foreach (Build build in builds)
+                if (build.name == buildName)
+                    return build;
+            throw new TestLinkException("No build named '{0}' exists in this testplan.", buildName); 
         }
 
         /// <summary>
@@ -1220,7 +1236,11 @@ namespace Meyn.TestLink
                 }
             return result;
         }
-
+        /// <summary>
+        /// get all test suites that are children of a parent
+        /// </summary>
+        /// <param name="testsuiteid">the id of the parent test suite id</param>
+        /// <returns></returns>
         public List<TestSuite> GetTestSuitesForTestSuite(int testsuiteid)
         {
             List<TestSuite> Result = new List<TestSuite>();
@@ -1234,10 +1254,12 @@ namespace Meyn.TestLink
             if (handleErrorMessage(o, 7008))
                 return Result; // empty list
             XmlRpcStruct response = o as XmlRpcStruct;
-            foreach  (XmlRpcStruct data in response.Values)
-                {
+            if(response.ContainsKey("id")) // If one test suite, don't assume this is a collection.
+                Result.Add(new TestSuite(response));
+            else {
+                foreach  (XmlRpcStruct data in response.Values)
                     Result.Add(new TestSuite(data));
-                }           
+            }         
             return Result;
         }
         /// <summary>
