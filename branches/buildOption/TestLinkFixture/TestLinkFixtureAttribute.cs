@@ -57,6 +57,18 @@ namespace Meyn.TestLink
             get { return projectName; }
             set { projectName = value; }
         }
+
+        private string buildName;
+        /// <summary>
+        /// name of a build. If set then a specific build will be used for reporting results against. 
+        /// If not set the latest build will be used.
+        /// </summary>
+        public string BuildName
+        {
+            get { return BuildName; }
+            set { BuildName = value; }
+        }
+
         private string userId;
 
         /// <summary>
@@ -67,13 +79,7 @@ namespace Meyn.TestLink
             get { return userId; }
             set { userId = value; }
         }
-        //private string password;
-
-        //public string Password
-        //{
-        //    get { return password; }
-        //    set { password = value; }
-        //}
+       
         private string devKey;
 
         /// <summary>
@@ -144,6 +150,7 @@ namespace Meyn.TestLink
                 && (other.testPlan.Equals(testPlan))
                 && (other.testSuite.Equals(testSuite))
                 && (other.url.Equals(url))
+                && (other.buildName.Equals(buildName))
                 && (other.userId.Equals(userId)));
         }
 
@@ -155,6 +162,7 @@ namespace Meyn.TestLink
                  ^ testPlan.GetHashCode()
                  ^ testSuite.GetHashCode()
                  ^ url.GetHashCode()
+                 ^ buildName.GetHashCode()
                  ^ userId.GetHashCode());
         }
 
@@ -199,7 +207,7 @@ namespace Meyn.TestLink
             testSuite = updateAttributeFromConfigFile(doc, testSuite, "TestSuite");
             platformName = updateAttributeFromConfigFile(doc, platformName,"PlatformName");
             devKey = updateAttributeFromConfigFile(doc, devKey, "DevKey");
-            
+            buildName = updateAttributeFromConfigFile(doc, buildName, "BuildName");
             return true;
         }
 
@@ -209,6 +217,7 @@ namespace Meyn.TestLink
         /// <param name="doc"></param>
         /// <param name="existingValue">the existing value for the attribute</param>
         /// <param name="attributeName">the name of the attribute</param>
+        /// <remarks>if the existing value is not null it will be used, unless the config file says override</remarks>
         /// <returns></returns>
         private string updateAttributeFromConfigFile(XmlDocument doc, string existingValue, string attributeName)
         {
