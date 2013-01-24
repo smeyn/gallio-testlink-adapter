@@ -59,7 +59,7 @@ namespace tlinkTest
     {
 
         int tcId = 16;
-        int buildId = 4;
+        int buildId = -1;
         int kwId = 1;
         
         int assignedTo = 1;
@@ -69,8 +69,23 @@ namespace tlinkTest
         public void setup()
         {
             base.Setup();
-            Assert.IsNotNull(AllProjects);           
+            Assert.IsNotNull(AllProjects);
         }
+
+        // required setup for test cases that need a build id
+        private int setupBuildId()
+        {
+            List<Build> builds = proxy.GetBuildsForTestPlan(PlanCalledAutomatedTesting.id);
+            int buildId = -1;
+            foreach (Build build in builds)
+            {
+                if (build.name == "Build to be used for testing")
+                    buildId = build.id;
+            }
+            Assert.AreNotEqual(-1, buildId, "Setup phase could not get build to be used for testing");
+            return buildId;
+        }
+
         [Test]
         public void GetNonExistentTc()
         {
@@ -124,6 +139,8 @@ namespace tlinkTest
         public void GetTestCasesForTestPlan_tc_build()
         {
 
+           int  buildId = setupBuildId();
+
             List<TestCaseFromTestPlan> idList = proxy.GetTestCasesForTestPlan(PlanCalledAutomatedTesting.id, tcId, buildId);
 
             foreach (TestCaseFromTestPlan tc in idList)
@@ -137,6 +154,8 @@ namespace tlinkTest
         [Test]
         public void GetTestCasesForTestPlan_tc_build_kw_nonexistent()
         {
+            int buildId = setupBuildId();
+
             List<TestCaseFromTestPlan> idList = proxy.GetTestCasesForTestPlan(PlanCalledAutomatedTesting.id, tcId, buildId,  kwId);
 
             foreach (TestCaseFromTestPlan tc in idList)
@@ -149,6 +168,7 @@ namespace tlinkTest
         [Test]
         public void GetTestCasesForTestPlan_tc_build_executedTrue()
         {
+            int buildId = setupBuildId();
 
             List<TestCaseFromTestPlan> idList = proxy.GetTestCasesForTestPlan(PlanCalledAutomatedTesting.id, tcId, buildId, kwId, true);
 
@@ -162,6 +182,8 @@ namespace tlinkTest
         [Test]
         public void GetTestCasesForTestPlan_tc_build_kw_executed_assignedToWrongId()
         {
+            int buildId = setupBuildId();
+
             List<TestCaseFromTestPlan> idList = proxy.GetTestCasesForTestPlan(PlanCalledAutomatedTesting.id, tcId, buildId, kwId, true, assignedTo);
 
             foreach (TestCaseFromTestPlan tc in idList)
@@ -174,6 +196,8 @@ namespace tlinkTest
         [Test]
         public void GetTestCasesForTestPlan_tc_build_kw_executed_assignedTo_status_notexecuted()
         {
+            int buildId = setupBuildId();
+
             List<TestCaseFromTestPlan> idList = proxy.GetTestCasesForTestPlan(PlanCalledAutomatedTesting.id, tcId, buildId, 
                 kwId, true, assignedTo, "p");
 
@@ -295,7 +319,11 @@ namespace tlinkTest
         public void getTestcaseAttachments()
         {
             List<TestCaseId> list = proxy.GetTestCaseIDByName("TestCase with Attachments");
+            Assert.IsNotEmpty(list, "Expected at least one test case");
+            TestCaseId tcId = list[0];
 
+
+            Console.WriteLine("Found Test case named {0}", tcId.name);
             List<Attachment> result = proxy.GetTestCaseAttachments(list[0].id);
             foreach (Attachment a in result)
                 Console.WriteLine("{0}:'{1}'. File Type:{2}. date added:{3}", a.id, a.name, a.file_type, a.date_added);
