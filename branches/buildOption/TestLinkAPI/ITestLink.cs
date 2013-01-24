@@ -80,7 +80,7 @@ namespace Meyn.TestLink
         [XmlRpcMethod("tl.addTestCaseToTestPlan", StructParams = true)]
         object addTestCaseToTestPlan(string devKey, int testprojectid, int testplanid, string testcaseexternalid, int version, int platformid, int executionorder, int urgency);
 
-
+        // currently not functinoal, Testlink returns an empty result
         [XmlRpcMethod("tl.getTestCaseAttachments", StructParams = true)]
         object getTestCaseAttachments(string devKey, int testcaseid);
 
