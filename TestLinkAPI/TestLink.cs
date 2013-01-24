@@ -1,4 +1,4 @@
- /* 
+﻿ /* 
 TestLink API library
 Copyright (c) 2009, Stephan Meyn <stephanmeyn@gmail.com>
 
@@ -787,6 +787,8 @@ namespace Meyn.TestLink
             stateIsValid();
             object o = proxy.getTestCaseAttachments(devkey, testCaseId);
             handleErrorMessage(o);
+            Console.WriteLine("test case attachments result {0}", o);
+
             List<Attachment> result = new List<Attachment>();
             XmlRpcStruct olist = o as XmlRpcStruct;
             if (olist != null)
