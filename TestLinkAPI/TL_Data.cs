@@ -278,12 +278,33 @@ namespace Meyn.TestLink
         /// the id displayed on the UI, but without hte prefix
         /// </summary>
         public readonly string external_id;
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly int importance;
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly int feature_id;
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly DateTime linked_ts;
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly int linked_by;
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly string name;
+        /// <summary>
+        /// 
+        /// </summary>
         public readonly int platform_id;
+        /// <summary>
+        /// 
+        /// </summary>
         public string platform_name;
         /// <summary>
         /// //the priority assigned in the test case(?)
@@ -293,24 +314,54 @@ namespace Meyn.TestLink
         /// not clear what this is. It is NOT the same as the status in the other test case classes
         /// </summary>
         public string status;
-       
+       /// <summary>
+       /// 
+       /// </summary>
         public string summary;
         /// <summary>
         /// 
         /// </summary>
         public int tcversion_number;
+        /// <summary>
+        /// 
+        /// </summary>
         public int tcversion_id;
+        /// <summary>
+        /// 
+        /// </summary>
         public int tc_id;
+        /// <summary>
+        /// 
+        /// </summary>
         public int tester_id;
+        /// <summary>
+        /// 
+        /// </summary>
         public int testsuite_id;
+        /// <summary>
+        /// 
+        /// </summary>
         public string tsuite_name;
+        /// <summary>
+        /// 
+        /// </summary>
         public string type;
+        /// <summary>
+        /// 
+        /// </summary>
         public int user_id;
+ 
         /// <summary>
         /// urgency set in test plan
         /// </summary>
         public int urgency;
+        /// <summary>
+        /// 
+        /// </summary>
         public int version;
+        /// <summary>
+        /// 
+        /// </summary>
         public int z;
 
         internal TestCaseFromTestPlan(XmlRpcStruct data)
