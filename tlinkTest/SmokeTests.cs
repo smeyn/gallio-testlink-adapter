@@ -55,7 +55,9 @@ namespace tlinkTest
         TestPlan = "Automatic Testing",
         TestSuite = "SmokeTests",
         PlatformName = "Testlink v1.9.3",
-        DevKey = "fb37eb345a5b4f05659d5c35bb3465fd")]
+        DevKey = "fb37eb345a5b4f05659d5c35bb3465fd",
+        BuildName = "Build 1.3a")    
+    ]
     public class SmokeTests : Testbase
     {
 
