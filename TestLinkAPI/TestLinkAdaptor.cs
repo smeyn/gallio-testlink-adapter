@@ -62,7 +62,9 @@ namespace Meyn.TestLink
         }
        
         private TestLinkException lastException = null;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public TestLinkException LastException
         {
             get { return lastException; }
@@ -79,7 +81,8 @@ namespace Meyn.TestLink
         private int testPlanId;
         private int testProjectId;
         private string platformName = string.Empty;
-
+        private string buildName = string.Empty;
+        private int buildId = 0;
         /// <summary>
         /// sets up connection and retrieves basic data
         /// </summary>
@@ -102,7 +105,10 @@ namespace Meyn.TestLink
         {
             GeneralResult result = null;
             if (ConnectionValid == true)
+            {
+                
                 result = proxy.ReportTCResult(testCaseId, testPlanId, status, platformName: platformName, notes: notes.ToString());
+            }
             else
                 result = new GeneralResult("Invalid Connection", false);
             return result;
@@ -170,7 +176,8 @@ namespace Meyn.TestLink
             bool devKeyDifferent = true;
             bool projectDifferent = true;
             bool planDifferent = true;
-            bool testSuiteDifferent = true;            
+            bool testSuiteDifferent = true;
+            bool buildDifferent = true;
 
             if (newData == null)
             {
@@ -181,7 +188,7 @@ namespace Meyn.TestLink
                 return;
             }
 
-
+            // try to minimise the calls to testlink
             if (connectionData != null)
             {
                 if (newData.Url == connectionData.Url)
@@ -197,7 +204,7 @@ namespace Meyn.TestLink
                             {
                                 planDifferent = false;
                                 testSuiteDifferent = connectionData.TestSuite != newData.TestSuite;
-                                
+                                buildDifferent = (connectionData.BuildName != newData.BuildName);
                             }
                         }
                     }
@@ -205,6 +212,7 @@ namespace Meyn.TestLink
             }
             connectionData = newData;
             platformName = connectionData.PlatformName;
+            buildName = connectionData.BuildName;
 
             //attempt a new connection if url or devkey are different
             if (connectionDifferent || devKeyDifferent)
@@ -214,7 +222,7 @@ namespace Meyn.TestLink
 
             
             if (basicConnectionValid)
-                projectDataValid = updateData(projectDifferent, planDifferent, testSuiteDifferent);
+                projectDataValid = updateData(projectDifferent, planDifferent, testSuiteDifferent, buildDifferent);
             
         }
         /// <summary>
@@ -248,7 +256,7 @@ namespace Meyn.TestLink
         /// <param name="newTestPlan"></param>
         /// <param name="newTestSuite"></param>
         /// <returns>true if data have been set up successfully</returns>
-        private bool updateData(bool newProject, bool newTestPlan, bool newTestSuite)
+        private bool updateData(bool newProject, bool newTestPlan, bool newTestSuite, bool newBuildName)
         {
             if (basicConnectionValid == false)
             {
@@ -311,8 +319,33 @@ namespace Meyn.TestLink
             else if (testSuiteId == 0) // it was wrong and hasn't changed
                 return false;
 
+            if (newBuildName)
+            {
+                buildId = getBuildIdForName(testPlanId, buildName);
+                if (buildId == 0)
+                {
+                    Console.WriteLine("Build '{0}' was not found in test plan {1}. you need to create the build id first'", connectionData.BuildName, connectionData.TestPlan);
+                    return false;
+                }
+            }
+            // if it was 0 from the beginning then we use the last build
            
             return true;
+        }
+
+        /// <summary>
+        ///  get a build id for a build name
+        /// </summary>
+        /// <param name="testPlanId"></param>
+        /// <param name="buildName"></param>
+        /// <returns>the id, but 0 if not found</returns>
+        private int getBuildIdForName(int testPlanId, string buildName)
+        {
+            List<Build> builds = proxy.GetBuildsForTestPlan(testPlanId);
+            foreach (Build build in builds)
+                if (build.name == buildName)
+                    return build.id;
+            return 0;
         }
 
            
