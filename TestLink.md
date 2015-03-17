@@ -1,0 +1,2 @@
+TestLink enables easily to create and manage Test cases as well as organize them into Test plans. These Test plans allow team members to execute Test cases and track test results dynamically, generate reports, trace software requirements, prioritize and assign tasks.
+To find out more about Testlink go to http://www.teamst.org
