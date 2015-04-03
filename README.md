@@ -6,7 +6,11 @@ These pages started as an adapter that connected Gallio to TestLink. It has grow
 A C# library wrapping the TestLink Api
 A Gallio Adapter adapter that exports Gallio Results to TestLink
 A NUnit Adapter that exports NUnit Results to TestLink ## Adapter Does not Work? ## Check the version of MBUnit or NUnit respectively you are using. With MBUnit the project needs to be recompiled whenever a new version comes out. With NUnit that may be the same case (not yet verified).
-Update
+
+##Downloads
+https://bintray.com/smeyn/Gallio-Testlink-Adapter
+
+##Update
 
 1 Jan 2013: new version of Binaries for NUnit This version has been recompiled to work with NUnit v 2.6.2
 
